@@ -1,0 +1,14 @@
+export { AggregateCollectionCollaboratorArgs } from "./AggregateCollectionCollaboratorArgs";
+export { CreateManyCollectionCollaboratorArgs } from "./CreateManyCollectionCollaboratorArgs";
+export { CreateOneCollectionCollaboratorArgs } from "./CreateOneCollectionCollaboratorArgs";
+export { DeleteManyCollectionCollaboratorArgs } from "./DeleteManyCollectionCollaboratorArgs";
+export { DeleteOneCollectionCollaboratorArgs } from "./DeleteOneCollectionCollaboratorArgs";
+export { FindFirstCollectionCollaboratorArgs } from "./FindFirstCollectionCollaboratorArgs";
+export { FindFirstCollectionCollaboratorOrThrowArgs } from "./FindFirstCollectionCollaboratorOrThrowArgs";
+export { FindManyCollectionCollaboratorArgs } from "./FindManyCollectionCollaboratorArgs";
+export { FindUniqueCollectionCollaboratorArgs } from "./FindUniqueCollectionCollaboratorArgs";
+export { FindUniqueCollectionCollaboratorOrThrowArgs } from "./FindUniqueCollectionCollaboratorOrThrowArgs";
+export { GroupByCollectionCollaboratorArgs } from "./GroupByCollectionCollaboratorArgs";
+export { UpdateManyCollectionCollaboratorArgs } from "./UpdateManyCollectionCollaboratorArgs";
+export { UpdateOneCollectionCollaboratorArgs } from "./UpdateOneCollectionCollaboratorArgs";
+export { UpsertOneCollectionCollaboratorArgs } from "./UpsertOneCollectionCollaboratorArgs";

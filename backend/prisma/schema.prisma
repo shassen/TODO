@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator typegraphql {
+  provider                 = "typegraphql-prisma"
+  output                   = "../src/generated/typegraphql-prisma"
+  omitInputFieldsByDefault = ["createdAt", "updatedAt", "archivedAt", "deletedAt"]
+  useSimpleInputs          = true
+}
+
+//----------------------------------
+// MongoDB schema design START
+//----------------------------------
+
+enum Permission {
+  COMPLETE
+  VIEW
+  EDIT
+  OWNER
+}
+
+model User {
+  id             String                   @id @default(auto()) @map("_id") @db.ObjectId
+  email          String                   @unique
+  password       String
+  birthday       String?
+  name           String?
+  phoneNumber    String?
+  isDeleted      Boolean                  @default(false)
+  isActive       Boolean                  @default(true)
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+  deletedAt      DateTime?
+  collections    Collection[]             @relation("CollectionOwner")
+  collaborations CollectionCollaborator[]
+  todos          Todo[]
+}
+
+model Collection {
+  id            String                   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String?
+  isDeleted     Boolean                  @default(false)
+  isActive      Boolean                  @default(true)
+  isArchived    Boolean                  @default(false)
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+  deletedAt     DateTime?
+  archivedAt    DateTime?
+  owner         User                     @relation("CollectionOwner", fields: [ownerId], references: [id])
+  ownerId       String                   @db.ObjectId
+  collaborators CollectionCollaborator[]
+  todos         Todo[]
+}
+
+model CollectionCollaborator {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  permission   Permission @default(EDIT)
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String     @db.ObjectId
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String     @db.ObjectId
+}
+
+model Todo {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  content      Json? // Notion-style rich content
+  completed    Boolean    @default(false)
+  isDeleted    Boolean    @default(false)
+  isArchived   Boolean    @default(false)
+  dueDate      DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  archivedAt   DateTime?
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String     @db.ObjectId
+  creator      User       @relation(fields: [creatorId], references: [id])
+  creatorId    String     @db.ObjectId
+}
+
+//----------------------------------
+// MongoDB schema design END
+//----------------------------------
+
+// --------------------------------------------
+// Original MySQL schema design START
+// --------------------------------------------
+
+// model Account {
+//   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+//   shared             Boolean  @default(false)
+//   accountPreferences Json?
+//   userIds            String[] @db.ObjectId
+
+//   users User[] @relation(fields: [userIds], references: [id])
+// }
+
+// model User {
+//   id              String   @id @default(auto()) @map("_id") @db.ObjectId
+//   first_name      String
+//   last_name       String
+//   email           String
+//   username        String?
+//   age             Int?
+//   profileImageUrl String?
+//   userPreferences Json?
+//   collectionId    String?  @db.ObjectId
+//   accountIds      String[] @db.ObjectId
+
+//   todoCreateUser Todo[]         @relation("todoCreateUser")
+//   todoModifyUser Todo[]         @relation("todoModifyUser")
+//   collection     Collection?    @relation(fields: [collectionId], references: [id])
+//   accounts       Account[]      @relation(fields: [accountIds], references: [id])
+//   friends        Friend[]
+//   todoTemplate   todoTemplate[]
+// }
+
+// model Friend {
+//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+//   userId     String?  @db.ObjectId
+//   createTime DateTime @default(now())
+//   isDeleted  Boolean  @default(true)
+
+//   User User? @relation(fields: [userId], references: [id])
+// }
+
+// model Todo {
+//   id              String    @id @default(auto()) @map("_id") @db.ObjectId
+//   title           String
+//   content         Json?
+//   completed       Boolean   @default(false)
+//   dueDate         DateTime?
+//   isDeleted       Boolean   @default(false)
+//   createTime      DateTime  @default(now())
+//   collectionId    String?   @db.ObjectId
+//   todoTemplateIds String[]  @db.ObjectId
+//   createUserId    String    @db.ObjectId
+//   modifyUserId    String?   @db.ObjectId
+
+//   createUser    User           @relation(name: "todoCreateUser", fields: [createUserId], references: [id])
+//   modifyUser    User?          @relation(name: "todoModifyUser", fields: [modifyUserId], references: [id])
+//   collection    Collection?    @relation(fields: [collectionId], references: [id])
+//   todoTemplates todoTemplate[] @relation(fields: [todoTemplateIds], references: [id])
+// }
+
+// model Collection {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String
+//   description String?
+//   shared      Boolean  @default(false)
+//   createTime  DateTime @default(now())
+//   isDeleted   Boolean  @default(false)
+
+//   Todos Todo[]
+//   Users User[]
+// }
+
+// model todoTemplate {
+//   id           String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name         String
+//   createTime   DateTime @default(now())
+//   createUser   User     @relation(fields: [createUserId], references: [id])
+//   createUserId String   @db.ObjectId
+//   isPublic     Boolean  @default(false)
+
+//   todos   Todo[]   @relation(fields: [todoIds], references: [id])
+//   todoIds String[] @db.ObjectId
+// }
+
+// --------------------------------------------
+// Original MySQL schema design END
+// --------------------------------------------
