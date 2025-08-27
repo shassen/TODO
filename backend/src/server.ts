@@ -1,4 +1,5 @@
 import "reflect-metadata"
+import "dotenv/config"
 import fastify from "fastify"
 import mercurius from "mercurius"
 import { buildSchema } from "type-graphql"
