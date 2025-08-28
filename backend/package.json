@@ -45,6 +45,6 @@
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'",
     "format:check": "prettier --check 'src/**/*.{ts,js,json,md}'",
     "generate:types": "graphql-codegen --config codegen.yml",
-    "generate:token": "ts-node-dev src/scripts/test-jwt.ts"
+    "generate:jwt": "ts-node-dev src/scripts/test-jwt.ts"
   }
 }
