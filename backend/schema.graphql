@@ -88,7 +88,19 @@ input JsonNullableFilter {
   not: JSON
 }
 
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type LoginUserResponse {
+  token: String!
+  user: User!
+}
+
 type Mutation {
+  loginUser(data: LoginUserInput!): LoginUserResponse!
+  logoutUser: Boolean!
   registerUser(data: RegisterUserInput!): User!
 }
 
@@ -153,6 +165,7 @@ enum Permission {
 }
 
 type Query {
+  findUser: User
   todos: [Todo!]!
 }
 
