@@ -8,6 +8,10 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
   const userService = (fastify as any).userService
   const authController = new AuthController(userService)
 
+  // Public routes
+  fastify.get("/welcome", authController.getWelcome)
+
+  // Protected routes
   fastify.get("/dashboard", requireAuth(authController.getDashboard))
   fastify.get("/profile", requireAuth(authController.getProfile))
 }

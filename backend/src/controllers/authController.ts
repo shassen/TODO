@@ -5,6 +5,36 @@ import { UserService } from "../services/userService"
 export class AuthController {
   constructor(private userService: UserService) {}
 
+  getWelcome = async (request: FastifyRequest, reply: FastifyReply) => {
+    reply.send({
+      message: "welcome to the TODO app!",
+      description: "This is a simple TODO app built with Fastify, TypeScript, and Prisma.",
+      actions: [
+        {
+          name: "Sign up",
+          description: "Create a new account",
+          endpoint: "/graphiql",
+          method: "POST",
+          example: {
+            mutation: "registerUser",
+            data: { email: "example@example.com", password: "password", name: "Jane Plane" },
+          },
+        },
+        {
+          name: "Log In",
+          description: "Log in to your account",
+          endpoint: "/graphiql",
+          method: "POST",
+          example: {
+            mutation: "loginUser",
+            data: { email: "example@example.com", password: "password" },
+          },
+        },
+      ],
+      documentation: "Visit /graphiql to get more information about the API",
+    })
+  }
+
   getDashboard = async (request: AuthenticatedRequest, reply: FastifyReply) => {
     try {
       const { userId } = request.user

@@ -57,7 +57,9 @@ const start = async () => {
   // Register GraphQL with Mercurius
   app.register(mercurius, {
     schema,
-    graphiql: true,
+    graphiql: {
+      enabled: true,
+    },
     context: graphqlContext, // pass context function
   })
 
