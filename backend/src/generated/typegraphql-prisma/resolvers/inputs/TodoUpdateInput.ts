@@ -2,7 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "../../../prisma";
 import { DecimalJSScalar } from "../../scalars";
-import { CollectionUpdateOneRequiredWithoutTodosNestedInput } from "../inputs/CollectionUpdateOneRequiredWithoutTodosNestedInput";
+import { CollectionUpdateOneWithoutTodosNestedInput } from "../inputs/CollectionUpdateOneWithoutTodosNestedInput";
 import { UserUpdateOneRequiredWithoutTodosNestedInput } from "../inputs/UserUpdateOneRequiredWithoutTodosNestedInput";
 
 @TypeGraphQL.InputType("TodoUpdateInput", {})
@@ -37,10 +37,10 @@ export class TodoUpdateInput {
   })
   dueDate?: Date | undefined;
 
-  @TypeGraphQL.Field(_type => CollectionUpdateOneRequiredWithoutTodosNestedInput, {
+  @TypeGraphQL.Field(_type => CollectionUpdateOneWithoutTodosNestedInput, {
     nullable: true
   })
-  collection?: CollectionUpdateOneRequiredWithoutTodosNestedInput | undefined;
+  collection?: CollectionUpdateOneWithoutTodosNestedInput | undefined;
 
   @TypeGraphQL.Field(_type => UserUpdateOneRequiredWithoutTodosNestedInput, {
     nullable: true

@@ -2,14 +2,20 @@
 import { FastifyRequest, FastifyReply } from "fastify"
 import { AuthService } from "../services/authService"
 import { UserService } from "../services/userService"
+import { TodoService } from "../services/todoService"
 
 export interface GraphQLContext {
   user: { userId: string } | null
   userService: UserService
   authService: AuthService
+  todoService: TodoService
 }
 
-export const createContext = (userService: UserService, authService: AuthService) => {
+export const createContext = (
+  userService: UserService,
+  authService: AuthService,
+  todoService: TodoService,
+) => {
   return async (request: FastifyRequest, reply: FastifyReply): Promise<GraphQLContext> => {
     let user = null
 
@@ -27,6 +33,11 @@ export const createContext = (userService: UserService, authService: AuthService
       }
     }
 
-    return { user, userService, authService }
+    return {
+      user,
+      userService,
+      authService,
+      todoService,
+    }
   }
 }

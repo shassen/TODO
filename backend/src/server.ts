@@ -8,7 +8,8 @@ import fastifyCors from "@fastify/cors"
 import { PrismaClient } from "../src/generated/prisma"
 import { AuthService } from "./services/authService"
 import { UserService } from "./services/userService"
-import { TodoCustomResolver } from "./graphql/todo"
+import { TodoService } from "./services/todoService"
+import { TodoCustomResolver } from "./graphql/TodoCustomResolver"
 import { UserCustomResolver } from "./graphql/UserCustomResolver"
 import { connectDb } from "./db/prismaClient"
 import { createContext } from "./context/context"
@@ -18,6 +19,7 @@ import authPlugin from "./plugins/auth"
 const prisma = new PrismaClient()
 const authService = new AuthService()
 const userService = new UserService({ prisma, authService })
+const todoService = new TodoService({ prisma })
 
 // Create Fastify app
 const app = fastify({ logger: true })
@@ -52,7 +54,7 @@ const start = async () => {
   })
 
   // Create context function for Mercurius
-  const graphqlContext = createContext(userService, authService)
+  const graphqlContext = createContext(userService, authService, todoService)
 
   // Register GraphQL with Mercurius
   app.register(mercurius, {

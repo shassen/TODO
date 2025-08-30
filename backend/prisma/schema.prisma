@@ -76,21 +76,21 @@ model CollectionCollaborator {
 }
 
 model Todo {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
   title        String
   content      Json? // Notion-style rich content
-  completed    Boolean    @default(false)
-  isDeleted    Boolean    @default(false)
-  isArchived   Boolean    @default(false)
+  completed    Boolean     @default(false)
+  isDeleted    Boolean     @default(false)
+  isArchived   Boolean     @default(false)
   dueDate      DateTime?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
   deletedAt    DateTime?
   archivedAt   DateTime?
-  collection   Collection @relation(fields: [collectionId], references: [id])
-  collectionId String     @db.ObjectId
-  creator      User       @relation(fields: [creatorId], references: [id])
-  creatorId    String     @db.ObjectId
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  collectionId String?     @db.ObjectId
+  creator      User        @relation(fields: [creatorId], references: [id])
+  creatorId    String      @db.ObjectId
 }
 
 //----------------------------------

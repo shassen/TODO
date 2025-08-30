@@ -32,6 +32,11 @@ input CollectionListRelationFilter {
   some: CollectionWhereInput
 }
 
+input CollectionNullableRelationFilter {
+  is: CollectionWhereInput
+  isNot: CollectionWhereInput
+}
+
 input CollectionRelationFilter {
   is: CollectionWhereInput
   isNot: CollectionWhereInput
@@ -51,6 +56,13 @@ input CollectionWhereInput {
   owner: UserRelationFilter
   ownerId: StringFilter
   todos: TodoListRelationFilter
+}
+
+input CreateTodoInput {
+  collectionId: String
+  content: JSON
+  dueDate: DateTimeISO
+  title: String!
 }
 
 """
@@ -99,6 +111,7 @@ type LoginUserResponse {
 }
 
 type Mutation {
+  createTodo(data: CreateTodoInput!): Todo!
   loginUser(data: LoginUserInput!): LoginUserResponse!
   logoutUser: Boolean!
   registerUser(data: RegisterUserInput!): User!
@@ -165,8 +178,8 @@ enum Permission {
 }
 
 type Query {
+  fetchManyTodos: [Todo!]!
   findUser: User
-  todos: [Todo!]!
 }
 
 enum QueryMode {
@@ -213,7 +226,7 @@ input StringNullableFilter {
 
 type Todo {
   archivedAt: DateTimeISO
-  collectionId: String!
+  collectionId: String
   completed: Boolean!
   content: JSON
   createdAt: DateTimeISO!
@@ -237,8 +250,8 @@ input TodoWhereInput {
   AND: [TodoWhereInput!]
   NOT: [TodoWhereInput!]
   OR: [TodoWhereInput!]
-  collection: CollectionRelationFilter
-  collectionId: StringFilter
+  collection: CollectionNullableRelationFilter
+  collectionId: StringNullableFilter
   completed: BoolFilter
   content: JsonNullableFilter
   creator: UserRelationFilter
