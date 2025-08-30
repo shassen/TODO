@@ -1,7 +1,5 @@
-import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client"
-import { ApolloProvider } from "@apollo/client/react"
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client"
 import { SetContextLink } from "@apollo/client/link/context"
-import { headers } from "next/headers"
 
 const httpLink = new HttpLink({ uri: "http://localhost:3000/graphql" })
 

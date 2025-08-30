@@ -40,9 +40,9 @@ const start = async () => {
   }
 
   await app.register(fastifyCors, {
-    origin: "*",
+    origin: "http://localhost:3001",
     methods: ["GET", "POST"],
-    allowedHeaders: ["Authorization"],
+    allowedHeaders: ["Authorization", "Content-Type"],
   })
 
   // Build GraphQL schema
