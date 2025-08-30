@@ -41,9 +41,9 @@ export class TodoCreateManyInput {
   dueDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  collectionId!: string;
+  collectionId?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

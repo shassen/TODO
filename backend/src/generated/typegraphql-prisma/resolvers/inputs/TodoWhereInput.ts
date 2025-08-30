@@ -3,11 +3,12 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "../../../prisma";
 import { DecimalJSScalar } from "../../scalars";
 import { BoolFilter } from "../inputs/BoolFilter";
-import { CollectionRelationFilter } from "../inputs/CollectionRelationFilter";
+import { CollectionNullableRelationFilter } from "../inputs/CollectionNullableRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { JsonNullableFilter } from "../inputs/JsonNullableFilter";
 import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { UserRelationFilter } from "../inputs/UserRelationFilter";
 
 @TypeGraphQL.InputType("TodoWhereInput", {})
@@ -62,20 +63,20 @@ export class TodoWhereInput {
   })
   dueDate?: DateTimeNullableFilter | undefined;
 
-  @TypeGraphQL.Field(_type => StringFilter, {
+  @TypeGraphQL.Field(_type => StringNullableFilter, {
     nullable: true
   })
-  collectionId?: StringFilter | undefined;
+  collectionId?: StringNullableFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
   creatorId?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => CollectionRelationFilter, {
+  @TypeGraphQL.Field(_type => CollectionNullableRelationFilter, {
     nullable: true
   })
-  collection?: CollectionRelationFilter | undefined;
+  collection?: CollectionNullableRelationFilter | undefined;
 
   @TypeGraphQL.Field(_type => UserRelationFilter, {
     nullable: true

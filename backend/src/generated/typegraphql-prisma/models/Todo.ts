@@ -62,12 +62,12 @@ export class Todo {
   })
   archivedAt?: Date | null;
 
-  collection?: Collection;
+  collection?: Collection | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  collectionId!: string;
+  collectionId?: string | null;
 
   creator?: User;
 

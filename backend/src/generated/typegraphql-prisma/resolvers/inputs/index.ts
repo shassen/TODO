@@ -53,6 +53,7 @@ export { CollectionCreateWithoutTodosInput } from "./CollectionCreateWithoutTodo
 export { CollectionListRelationFilter } from "./CollectionListRelationFilter";
 export { CollectionMaxOrderByAggregateInput } from "./CollectionMaxOrderByAggregateInput";
 export { CollectionMinOrderByAggregateInput } from "./CollectionMinOrderByAggregateInput";
+export { CollectionNullableRelationFilter } from "./CollectionNullableRelationFilter";
 export { CollectionOrderByRelationAggregateInput } from "./CollectionOrderByRelationAggregateInput";
 export { CollectionOrderByWithAggregationInput } from "./CollectionOrderByWithAggregationInput";
 export { CollectionOrderByWithRelationInput } from "./CollectionOrderByWithRelationInput";
@@ -64,7 +65,7 @@ export { CollectionUpdateManyMutationInput } from "./CollectionUpdateManyMutatio
 export { CollectionUpdateManyWithWhereWithoutOwnerInput } from "./CollectionUpdateManyWithWhereWithoutOwnerInput";
 export { CollectionUpdateManyWithoutOwnerNestedInput } from "./CollectionUpdateManyWithoutOwnerNestedInput";
 export { CollectionUpdateOneRequiredWithoutCollaboratorsNestedInput } from "./CollectionUpdateOneRequiredWithoutCollaboratorsNestedInput";
-export { CollectionUpdateOneRequiredWithoutTodosNestedInput } from "./CollectionUpdateOneRequiredWithoutTodosNestedInput";
+export { CollectionUpdateOneWithoutTodosNestedInput } from "./CollectionUpdateOneWithoutTodosNestedInput";
 export { CollectionUpdateToOneWithWhereWithoutCollaboratorsInput } from "./CollectionUpdateToOneWithWhereWithoutCollaboratorsInput";
 export { CollectionUpdateToOneWithWhereWithoutTodosInput } from "./CollectionUpdateToOneWithWhereWithoutTodosInput";
 export { CollectionUpdateWithWhereUniqueWithoutOwnerInput } from "./CollectionUpdateWithWhereUniqueWithoutOwnerInput";

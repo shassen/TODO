@@ -43,9 +43,9 @@ export class TodoCreateInput {
   dueDate?: Date | undefined;
 
   @TypeGraphQL.Field(_type => CollectionCreateNestedOneWithoutTodosInput, {
-    nullable: false
+    nullable: true
   })
-  collection!: CollectionCreateNestedOneWithoutTodosInput;
+  collection?: CollectionCreateNestedOneWithoutTodosInput | undefined;
 
   @TypeGraphQL.Field(_type => UserCreateNestedOneWithoutTodosInput, {
     nullable: false

@@ -64,9 +64,9 @@ export class TodoGroupBy {
   archivedAt!: Date | null;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  collectionId!: string;
+  collectionId!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
