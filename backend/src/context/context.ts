@@ -1,5 +1,5 @@
 // context.ts
-import { FastifyRequest, FastifyReply } from "fastify"
+import { FastifyRequest, FastifyReply, FastifyBaseLogger } from "fastify"
 import { AuthService } from "../services/authService"
 import { UserService } from "../services/userService"
 import { TodoService } from "../services/todoService"
@@ -9,12 +9,16 @@ export interface GraphQLContext {
   userService: UserService
   authService: AuthService
   todoService: TodoService
+  logger: FastifyBaseLogger
+  reqId: string
 }
 
 export const createContext = (
   userService: UserService,
   authService: AuthService,
   todoService: TodoService,
+  logger: FastifyBaseLogger,
+  // reqId: string,
 ) => {
   return async (request: FastifyRequest, reply: FastifyReply): Promise<GraphQLContext> => {
     let user = null
@@ -26,9 +30,11 @@ export const createContext = (
         user = AuthService.verifyToken(token)
       } catch (err: unknown) {
         if (err instanceof Error) {
-          console.warn("Invalid JWT token:", err.message)
+          // console.warn("Invalid JWT token:", err.message)
+          logger.warn({ message: err.message }, "Invalid JWT token:")
         } else {
-          console.warn("Invalid JWT token:", err)
+          // console.warn("Invalid JWT token:", err)
+          logger.warn({ message: err }, "Invalid JWT token:")
         }
       }
     }
@@ -38,6 +44,8 @@ export const createContext = (
       userService,
       authService,
       todoService,
+      logger,
+      reqId: request.id,
     }
   }
 }

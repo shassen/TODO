@@ -7,6 +7,7 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
   // Get the userService instance from the fastify app
   const userService = (fastify as any).userService
   const authController = new AuthController(userService)
+  // const authController = (fastify as any).authService(userService)
 
   // Public routes
   fastify.get("/welcome", authController.getWelcome)
