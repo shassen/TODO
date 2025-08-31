@@ -18,6 +18,7 @@ Tech stack:
 4. Fastify
 5. Graphql
 6. MongoDB
+7. Vitest for unit testing
 
 Important commands and information:
 
