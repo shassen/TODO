@@ -1,13 +1,14 @@
-import { PrismaClient } from "../generated/prisma";
+import { FastifyBaseLogger } from "fastify"
+import { PrismaClient } from "../generated/prisma"
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient()
 
-export const connectDb = async () => {
+export const connectDb = async (logger: FastifyBaseLogger) => {
   try {
-    await prisma.$connect();
-    console.log("✅ Connected to MongoDB via Prisma");
+    await prisma.$connect()
+    logger.info("✅ Connected to MongoDB via Prisma")
   } catch (err) {
-    console.error("❌ Prisma connection error: ", err);
-    process.exit(1);
+    logger.error({ err }, "❌ Prisma connection error: ")
+    process.exit(1)
   }
-};
+}

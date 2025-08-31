@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const existingToken = getTokenFromLocalStorage()
     if (existingToken && isTokenValid({ token: existingToken })) {
-      console.log("in useEffect")
       setToken(existingToken)
       setUser(null)
     }
@@ -68,7 +67,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const { data } = (await loginMutation({
         variables: { data: { email, password } },
       })) as { data: { loginUser: LoginUserResponse } }
-      console.log("data", data)
 
       const { token: newToken, user: userData } = data.loginUser
       setTokenInLocalStorage({ token: newToken })
