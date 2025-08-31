@@ -18,7 +18,6 @@ export const createContext = (
   authService: AuthService,
   todoService: TodoService,
   logger: FastifyBaseLogger,
-  // reqId: string,
 ) => {
   return async (request: FastifyRequest, reply: FastifyReply): Promise<GraphQLContext> => {
     let user = null
