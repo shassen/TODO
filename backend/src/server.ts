@@ -42,7 +42,6 @@ const todoService = new TodoService({ prisma, logger })
 
 app.addHook("onRequest", (request, reply, done) => {
   request.id = reqId
-  request.headers["x-request-id"] = request.id
   reply.log = reply.log.child({ reqId: request.id })
   done()
 })
