@@ -35,10 +35,10 @@ export const RegisterForm = () => {
     setIsLoading(true)
 
     try {
-      await register({ email: formData.email, password: formData.password, name: formData.name })
       // Redirect will be handled by the auth context
-    } catch (err: any) {
-      setError(err.message || "Registration failed. Please try again.")
+      await register({ email: formData.email, password: formData.password, name: formData.name })
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Registration failed. Please try again.")
     } finally {
       setIsLoading(false)
     }

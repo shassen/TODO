@@ -20,10 +20,10 @@ export const LoginForm = () => {
     setIsLoading(true)
 
     try {
-      await login({ email, password })
       // Redirect will be handled by the auth context
-    } catch (err: any) {
-      setError(err.message || "Login failed. Please try again.")
+      await login({ email, password })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login failed. Please try again.")
     } finally {
       setIsLoading(false)
     }

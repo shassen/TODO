@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest"
+const { describe, it, expect } = require("vitest")
 
 describe("todoService test suite", () => {
   it("Simple boolean check should pass test as truthy", () => {
