@@ -4,13 +4,7 @@ import { useState, useEffect } from "react"
 import { gql } from "@apollo/client"
 import { useMutation } from "@apollo/client/react"
 import { AuthContext } from "@/hooks/useAuth"
-import {
-  AuthContextType,
-  LoginUserInput,
-  LoginUserResponse,
-  RegisterUserInput,
-  User,
-} from "@/lib/types"
+import { AuthContextType, LoginUserInput, LoginUserResponse, RegisterUserInput } from "@/lib/types"
 import {
   isTokenValid,
   getTokenFromLocalStorage,
@@ -64,11 +58,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async ({ email, password }: LoginUserInput) => {
     try {
-      const { data } = (await loginMutation({
+      const {
+        data: { loginUser },
+      } = (await loginMutation({
         variables: { data: { email, password } },
       })) as { data: { loginUser: LoginUserResponse } }
 
-      const { token: newToken, user: userData } = data.loginUser
+      const { token: newToken, user: userData } = loginUser
       setTokenInLocalStorage({ token: newToken })
       setToken(newToken)
       setUser(userData)
@@ -78,11 +74,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const register = async ({ email, password, name }: RegisterUserInput) => {
+  const register = async ({ email, password, name }: RegisterUserInput): Promise<void> => {
     try {
-      const { data } = (await registerMutation({
+      await registerMutation({
         variables: { data: { email, password, name } },
-      })) as { data: { registerUser: User } }
+      })
 
       await login({ email, password })
     } catch (error) {

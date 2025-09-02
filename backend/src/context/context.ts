@@ -29,10 +29,8 @@ export const createContext = (
         user = AuthService.verifyToken(token)
       } catch (err: unknown) {
         if (err instanceof Error) {
-          // console.warn("Invalid JWT token:", err.message)
           logger.warn({ message: err.message }, "Invalid JWT token:")
         } else {
-          // console.warn("Invalid JWT token:", err)
           logger.warn({ message: err }, "Invalid JWT token:")
         }
       }
