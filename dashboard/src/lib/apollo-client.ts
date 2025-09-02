@@ -11,7 +11,7 @@ const getToken = () => {
   return null
 }
 
-const authLink = new SetContextLink((prevContext, nextContext) => {
+const authLink = new SetContextLink((prevContext) => {
   const token = getToken()
 
   return {
