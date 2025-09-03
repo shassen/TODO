@@ -9,8 +9,10 @@ import fastifyCors from "@fastify/cors"
 import { AuthService } from "./services/authService"
 import { UserService } from "./services/userService"
 import { TodoService } from "./services/todoService"
+import { CollectionService } from "./services/collectionService"
 import { TodoCustomResolver } from "./graphql/TodoCustomResolver"
 import { UserCustomResolver } from "./graphql/UserCustomResolver"
+import { CollectionCustomResolver } from "./graphql/CollectionCustomResolver"
 import { connectDb } from "./db/prismaClient"
 import { createContext } from "./context/context"
 import authPlugin from "./plugins/auth"
@@ -37,6 +39,9 @@ const logger = app.log
 const authService = new AuthService({ logger })
 const userService = new UserService({ prisma, authService, logger })
 const todoService = new TodoService({ prisma, logger })
+const collectionService = new CollectionService({ prisma, logger })
+
+logger.info("⚙️ Services instantiated")
 
 app.addHook("onRequest", (request, reply, done) => {
   const uniqueReqId = uuidv4()
@@ -73,13 +78,13 @@ app.get("/", async (request, reply) => {
 app.decorate("userService", userService)
 
 const start = async () => {
-  logger.info("Starting server")
+  logger.info("🏁 Starting server")
   await connectDb(logger)
 
   if (!process.env.JWT_SECRET) {
     logger.warn("⚠️  JWT_SECRET missing in .env")
   } else {
-    logger.info("✅ JWT_SECRET loaded")
+    logger.info("🔑 JWT_SECRET loaded")
   }
 
   await app.register(fastifyCors, {
@@ -90,12 +95,18 @@ const start = async () => {
 
   // Build GraphQL schema
   const schema = await buildSchema({
-    resolvers: [TodoCustomResolver, UserCustomResolver],
+    resolvers: [TodoCustomResolver, UserCustomResolver, CollectionCustomResolver],
     emitSchemaFile: true,
   })
 
   // Create context function for Mercurius
-  const graphqlContext = createContext(userService, authService, todoService, logger)
+  const graphqlContext = createContext(
+    userService,
+    authService,
+    todoService,
+    collectionService,
+    logger,
+  )
 
   // Register GraphQL with Mercurius
   app.register(mercurius, {

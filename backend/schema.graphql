@@ -8,6 +8,21 @@ input BoolFilter {
   not: NestedBoolFilter
 }
 
+type Collection {
+  _count: CollectionCount
+  archivedAt: DateTimeISO
+  createdAt: DateTimeISO!
+  deletedAt: DateTimeISO
+  description: String
+  id: String!
+  isActive: Boolean!
+  isArchived: Boolean!
+  isDeleted: Boolean!
+  name: String!
+  ownerId: String!
+  updatedAt: DateTimeISO!
+}
+
 input CollectionCollaboratorListRelationFilter {
   every: CollectionCollaboratorWhereInput
   none: CollectionCollaboratorWhereInput
@@ -24,6 +39,11 @@ input CollectionCollaboratorWhereInput {
   permission: EnumPermissionFilter
   user: UserRelationFilter
   userId: StringFilter
+}
+
+type CollectionCount {
+  collaborators(where: CollectionCollaboratorWhereInput): Int!
+  todos(where: TodoWhereInput): Int!
 }
 
 input CollectionListRelationFilter {
@@ -56,6 +76,11 @@ input CollectionWhereInput {
   owner: UserRelationFilter
   ownerId: StringFilter
   todos: TodoListRelationFilter
+}
+
+input CreateCollectionInput {
+  description: String
+  name: String!
 }
 
 input CreateTodoInput {
@@ -111,6 +136,7 @@ type LoginUserResponse {
 }
 
 type Mutation {
+  createCollection(data: CreateCollectionInput!): Collection!
   createTodo(data: CreateTodoInput!): Todo!
   loginUser(data: LoginUserInput!): LoginUserResponse!
   logoutUser: Boolean!
@@ -178,6 +204,7 @@ enum Permission {
 }
 
 type Query {
+  fetchManyCollectiones: [Collection!]!
   fetchManyTodos: [Todo!]!
   findUser: User
 }

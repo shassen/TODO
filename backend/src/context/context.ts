@@ -3,12 +3,14 @@ import { FastifyRequest, FastifyReply, FastifyBaseLogger } from "fastify"
 import { AuthService } from "../services/authService"
 import { UserService } from "../services/userService"
 import { TodoService } from "../services/todoService"
+import { CollectionService } from "../services/collectionService"
 
 export interface GraphQLContext {
   user: { userId: string } | null
   userService: UserService
   authService: AuthService
   todoService: TodoService
+  collectionService: CollectionService
   logger: FastifyBaseLogger
   reqId: string
 }
@@ -17,6 +19,7 @@ export const createContext = (
   userService: UserService,
   authService: AuthService,
   todoService: TodoService,
+  collectionService: CollectionService,
   logger: FastifyBaseLogger,
 ) => {
   return async (request: FastifyRequest, reply: FastifyReply): Promise<GraphQLContext> => {
@@ -41,6 +44,7 @@ export const createContext = (
       userService,
       authService,
       todoService,
+      collectionService,
       logger,
       reqId: request.id,
     }
