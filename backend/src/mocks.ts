@@ -9,6 +9,16 @@ import { prisma } from "./db/prismaClient"
 vi.mock("../db/prismaClient")
 vi.mock("../generated/prisma")
 vi.mock("fastify")
+vi.mock("bcrypt")
+// vi.mock("jsonwebtoken", () => ({
+//   sign: vi.fn(),
+//   verify: vi.fn(),
+// }))
+
+export const jwtMock = {
+  sign: vi.fn(),
+  verify: vi.fn(),
+}
 
 // Mock dependencies
 export const loggerMock = {
@@ -21,18 +31,13 @@ export const loggerMock = {
   child: vi.fn(() => loggerMock),
 } as unknown as FastifyBaseLogger
 
-export const authServiceMock = {
-  hashPassword: vi.fn(),
-  verifyPassword: vi.fn(),
-  signToken: vi.fn(),
-  verifyToken: vi.fn(),
-}
-
 // Instantiate services with mocked dependencies
 export const todoServiceMock = new TodoService({
   prisma: prisma as any,
   logger: loggerMock,
 })
+
+export const authServiceMock = new AuthService({ logger: loggerMock })
 
 export const userServiceMock = new UserService({
   prisma: prisma as any,

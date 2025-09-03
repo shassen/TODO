@@ -26,7 +26,7 @@ export const createContext = (
     if (authHeader?.startsWith("Bearer ")) {
       const token = authHeader.split(" ")[1]
       try {
-        user = AuthService.verifyToken(token)
+        user = AuthService.verifyToken(token, request.id, logger)
       } catch (err: unknown) {
         if (err instanceof Error) {
           logger.warn({ message: err.message }, "Invalid JWT token:")

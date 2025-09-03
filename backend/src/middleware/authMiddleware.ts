@@ -18,7 +18,7 @@ export const authMiddleware = async (request: FastifyRequest, reply: FastifyRepl
   const token = authHeader.split(" ")[1]
 
   try {
-    const user = AuthService.verifyToken(token)
+    const user = AuthService.verifyToken(token, request.id, request.log)
     ;(request as AuthenticatedRequest).user = user
   } catch (err) {
     return reply.status(401).send({
