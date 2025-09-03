@@ -17,6 +17,7 @@ import { connectDb } from "./db/prismaClient"
 import { createContext } from "./context/context"
 import authPlugin from "./plugins/auth"
 import { prisma } from "./db/prismaClient"
+import { createSchema } from "./graphql/schema"
 
 // Create Fastify app
 const app = fastify({
@@ -80,6 +81,7 @@ app.decorate("userService", userService)
 const start = async () => {
   logger.info("🏁 Starting server")
   await connectDb(logger)
+  const schema = await createSchema(true)
 
   if (!process.env.JWT_SECRET) {
     logger.warn("⚠️  JWT_SECRET missing in .env")
@@ -94,10 +96,10 @@ const start = async () => {
   })
 
   // Build GraphQL schema
-  const schema = await buildSchema({
-    resolvers: [TodoCustomResolver, UserCustomResolver, CollectionCustomResolver],
-    emitSchemaFile: true,
-  })
+  // const schema = await buildSchema({
+  //   resolvers: [TodoCustomResolver, UserCustomResolver, CollectionCustomResolver],
+  //   emitSchemaFile: true,
+  // })
 
   // Create context function for Mercurius
   const graphqlContext = createContext(
