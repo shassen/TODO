@@ -1,20 +1,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 import { TodoService } from "./todoService"
 import { prisma } from "../db/prismaClient"
-import { mockLogger } from "../mocks"
+import { loggerMock } from "../mocks"
 import { Todo } from "../generated/prisma"
+import { todoServiceMock } from "../mocks"
 
 describe("todoService test suite", () => {
-  let todoService: TodoService
   const userId = "userId-123"
   const reqId = "reqId-123"
-
-  beforeEach(() => {
-    todoService = new TodoService({
-      prisma: prisma as any,
-      logger: mockLogger as any,
-    })
-  })
 
   afterEach(() => {
     vi.clearAllMocks()
@@ -23,10 +16,13 @@ describe("todoService test suite", () => {
   it("Should call getManyTodos but not find any todos", async () => {
     vi.spyOn(prisma.todo, "findMany").mockResolvedValue([])
 
-    const todos = await todoService.getManyTodos(reqId, { userId })
+    const todos = await todoServiceMock.getManyTodos(reqId, { userId })
 
     expect(todos).toEqual([])
-    expect(todoService["logger"].info).toHaveBeenCalledWith({ reqId, userId }, "Getting many todos")
+    expect(todoServiceMock["logger"].info).toHaveBeenCalledWith(
+      { reqId, userId },
+      "Getting many todos",
+    )
   })
 
   it("Should call getManyTodos and find many todos", async () => {
@@ -42,7 +38,7 @@ describe("todoService test suite", () => {
 
     vi.spyOn(prisma.todo, "findMany").mockResolvedValue(todoData)
 
-    const todos = await todoService.getManyTodos(reqId, { userId })
+    const todos = await todoServiceMock.getManyTodos(reqId, { userId })
     expect(todos).toEqual(todoData)
   })
 
@@ -65,9 +61,9 @@ describe("todoService test suite", () => {
 
     vi.spyOn(prisma.todo, "create").mockResolvedValue(todoData)
 
-    const todo = await todoService.createTodo(reqId, { userId, ...todoData })
+    const todo = await todoServiceMock.createTodo(reqId, { userId, ...todoData })
 
     expect(todo).toEqual(todoData)
-    expect(todoService["logger"].info).toHaveBeenCalledWith({ reqId, userId }, "Creating todo")
+    expect(todoServiceMock["logger"].info).toHaveBeenCalledWith({ reqId, userId }, "Creating todo")
   })
 })

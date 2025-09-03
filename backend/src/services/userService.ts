@@ -1,23 +1,28 @@
 import { PrismaClient, User } from "../generated/prisma"
 import { AuthService } from "./authService"
 import { RegisterUserInput } from "../graphql/UserCustomResolver"
+import { FastifyBaseLogger } from "fastify"
 
 export type UserServiceProps = {
   prisma: PrismaClient
   authService: AuthService
+  logger: FastifyBaseLogger
 }
 
 export class UserService {
   private prisma: PrismaClient
   private authService: AuthService
+  private logger: FastifyBaseLogger
 
-  constructor({ prisma, authService }: UserServiceProps) {
+  constructor({ prisma, authService, logger }: UserServiceProps) {
     this.prisma = prisma
     this.authService = authService
+    this.logger = logger
   }
 
   // Step 2: createUser method
-  async createUser({ email, password, name }: RegisterUserInput) {
+  async createUser({ email, password, name }: RegisterUserInput, reqId: string) {
+    this.logger.info({ reqId }, "Creating user")
     // Hash the password
     const hashedPassword = await this.authService.hashPassword(password)
 
@@ -34,13 +39,15 @@ export class UserService {
   }
 
   // find user by email
-  async findUserByEmail({ email }: { email: string }) {
+  async findUserByEmail({ email }: { email: string }, reqId: string) {
+    this.logger.info({ reqId, email }, "Finding user by email")
     return await this.prisma.user.findUnique({
       where: { email },
     })
   }
 
-  async findUserById({ userId }: { userId: string }) {
+  async findUserById({ userId }: { userId: string }, reqId: string) {
+    this.logger.info({ reqId, userId }, "Finding user by id")
     return await this.prisma.user.findUnique({
       where: { id: userId },
     })
