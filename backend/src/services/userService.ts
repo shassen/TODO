@@ -24,7 +24,7 @@ export class UserService {
   async createUser({ email, password, name }: RegisterUserInput, reqId: string) {
     this.logger.info({ reqId }, "Creating user")
     // Hash the password
-    const hashedPassword = await this.authService.hashPassword(password)
+    const hashedPassword = await this.authService.hashPassword(password, reqId)
 
     // Create the user in the DB
     const user = await this.prisma.user.create({
@@ -62,7 +62,7 @@ export class UserService {
     if (!user) {
       throw new Error("No user found with this email")
     }
-    const isPasswordValid = await this.authService.verifyPassword(password, user.password)
+    const isPasswordValid = await this.authService.verifyPassword(password, user.password, reqId)
 
     if (!isPasswordValid) {
       throw new Error("Invalid password")

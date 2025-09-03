@@ -34,7 +34,7 @@ const app = fastify({
 const logger = app.log
 
 // Instantiate Prisma and services
-const authService = new AuthService()
+const authService = new AuthService({ logger })
 const userService = new UserService({ prisma, authService, logger })
 const todoService = new TodoService({ prisma, logger })
 

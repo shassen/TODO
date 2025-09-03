@@ -49,11 +49,11 @@ export class UserCustomResolver {
   @Mutation(() => LoginUserResponse)
   async loginUser(
     @Arg("data", () => LoginUserInput) data: LoginUserInput,
-    @Ctx() { reqId, userService }: GraphQLContext,
+    @Ctx() { reqId, userService, logger }: GraphQLContext,
   ): Promise<LoginUserResponse> {
     const { email, password } = data
     const user = await userService.authenticateUser({ email, password }, reqId)
-    const token = AuthService.signToken(user.id)
+    const token = AuthService.signToken(user.id, reqId, logger)
 
     return { token, user }
   }
