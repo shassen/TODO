@@ -22,14 +22,10 @@ export class CreateTodoInput {
 @Resolver(Todo)
 export class TodoCustomResolver {
   @Query(() => [Todo])
-  async fetchManyTodos(
-    @Ctx() { user, todoService, logger, reqId }: GraphQLContext,
-  ): Promise<Todo[]> {
+  async fetchManyTodos(@Ctx() { user, todoService, reqId }: GraphQLContext): Promise<Todo[]> {
     if (!user) {
       throw new Error("User ID is required to fetch todos")
     }
-
-    logger.info({ userId: user.userId }, "Fetching many todos from resolver")
 
     const { userId } = user
     return todoService.getManyTodos(reqId, { userId })

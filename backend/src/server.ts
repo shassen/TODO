@@ -35,7 +35,7 @@ const logger = app.log
 
 // Instantiate Prisma and services
 const authService = new AuthService()
-const userService = new UserService({ prisma, authService })
+const userService = new UserService({ prisma, authService, logger })
 const todoService = new TodoService({ prisma, logger })
 
 app.addHook("onRequest", (request, reply, done) => {

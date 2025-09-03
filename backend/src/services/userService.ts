@@ -54,8 +54,11 @@ export class UserService {
   }
 
   // authenticate user
-  async authenticateUser({ email, password }: { email: string; password: string }): Promise<User> {
-    const user = await this.findUserByEmail({ email })
+  async authenticateUser(
+    { email, password }: { email: string; password: string },
+    reqId: string,
+  ): Promise<User> {
+    const user = await this.findUserByEmail({ email }, reqId)
     if (!user) {
       throw new Error("No user found with this email")
     }

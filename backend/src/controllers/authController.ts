@@ -38,7 +38,7 @@ export class AuthController {
   getDashboard = async (request: AuthenticatedRequest, reply: FastifyReply) => {
     try {
       const { userId } = request.user
-      const user = await this.userService.findUserById({ userId })
+      const user = await this.userService.findUserById({ userId }, request.id)
 
       if (!user) {
         return reply.status(404).send({ error: "User not found", message: "User not found" })
@@ -59,7 +59,7 @@ export class AuthController {
 
   getProfile = async (request: AuthenticatedRequest, reply: FastifyReply) => {
     const { userId } = request.user
-    const user = await this.userService.findUserById({ userId })
+    const user = await this.userService.findUserById({ userId }, request.id)
     reply.send({ message: `Profile for ${user?.name}, please enjoy your stay!` })
   }
 }
