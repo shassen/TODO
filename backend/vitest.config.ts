@@ -5,11 +5,8 @@ export default defineConfig({
     projects: [
       {
         test: {
-          name: "node",
-          root: "./src/services",
           environment: "node",
-          dependencies: ["node"],
-          testMatch: ["**/*.test.ts"],
+          setupFiles: ["./src/mocks.ts"],
         },
       },
     ],

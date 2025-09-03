@@ -7,7 +7,7 @@ export type TodoServiceProps = {
   logger: FastifyBaseLogger
 }
 
-type UserId = {
+export type UserId = {
   userId: string
 }
 
@@ -39,8 +39,7 @@ export class TodoService {
     reqId: string,
     { userId, title, content, dueDate, collectionId }: UserId & CreateTodoInput,
   ) {
-    this.logger.info({ userId }, "Creating todo")
-    // throw new Error("Testing an error in the todo service")
+    this.logger.info({ reqId, userId }, "Creating todo")
     const todo = await this.prisma.todo.create({
       data: {
         title,
