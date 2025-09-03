@@ -33,5 +33,3 @@ Important commands and information:
 These are the commands needed to interface with the graphql api!
 
 More information to come!
-
-Testing to see if push ruleset is working
