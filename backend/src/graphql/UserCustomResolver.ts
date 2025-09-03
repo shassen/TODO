@@ -38,11 +38,11 @@ export class UserCustomResolver {
   @Mutation(() => User)
   async registerUser(
     @Arg("data") data: RegisterUserInput,
-    @Ctx() ctx: GraphQLContext,
+    @Ctx() { reqId, userService }: GraphQLContext,
   ): Promise<User> {
     const { email, password, name } = data
 
-    const user = ctx.userService.createUser({ email, password, name })
+    const user = userService.createUser({ email, password, name }, reqId)
     return user
   }
 
@@ -64,11 +64,10 @@ export class UserCustomResolver {
   }
 
   @Query(() => User, { nullable: true })
-  async findUser(@Ctx() ctx: GraphQLContext): Promise<User | null> {
-    const { user } = ctx
+  async findUser(@Ctx() { reqId, userService, user }: GraphQLContext): Promise<User | null> {
     if (!user) {
       return null
     }
-    return ctx.userService.findUserById({ userId: user.userId })
+    return userService.findUserById({ userId: user.userId }, reqId)
   }
 }
