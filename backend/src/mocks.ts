@@ -3,6 +3,7 @@ import { FastifyBaseLogger } from "fastify"
 import { TodoService } from "./services/todoService"
 import { UserService } from "./services/userService"
 import { AuthService } from "./services/authService"
+import { CollectionService } from "./services/collectionService"
 import { prisma } from "./db/prismaClient"
 
 // Mock modules
@@ -42,5 +43,10 @@ export const authServiceMock = new AuthService({ logger: loggerMock })
 export const userServiceMock = new UserService({
   prisma: prisma as any,
   authService: authServiceMock as any,
+  logger: loggerMock,
+})
+
+export const collectionServiceMock = new CollectionService({
+  prisma: prisma as any,
   logger: loggerMock,
 })

@@ -11,5 +11,8 @@
     "prettier": "^3.6.2",
     "prettier-plugin-prisma": "^5.0.0",
     "typescript": "^5.9.2"
+  },
+  "scripts": {
+    "build": "cd backend && yarn build && yarn generate:types && cd ../dashboard && yarn build"
   }
 }
