@@ -20,6 +20,7 @@ type Collection {
   isDeleted: Boolean!
   name: String!
   ownerId: String!
+  todos: [Todo!]!
   updatedAt: DateTimeISO!
 }
 
