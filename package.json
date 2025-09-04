@@ -13,6 +13,6 @@
     "typescript": "^5.9.2"
   },
   "scripts": {
-    "build": "cd backend && yarn build && yarn generate:types && cd ../dashboard && yarn build"
+    "build": "cd dashboard && yarn build && cd ../backend && yarn generate:types && yarn build"
   }
 }

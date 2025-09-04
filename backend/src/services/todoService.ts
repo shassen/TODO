@@ -1,4 +1,4 @@
-import { PrismaClient, Todo } from "../generated/prisma"
+import { Collection, PrismaClient, Todo } from "../generated/prisma"
 import { CreateTodoInput } from "../graphql/TodoCustomResolver"
 import { FastifyBaseLogger } from "fastify"
 
@@ -61,5 +61,27 @@ export class TodoService {
     })
 
     return todo
+  }
+
+  async getManyTodosByCollectionId(
+    { id: collectionId, userId }: { id: string; userId: string },
+    reqId: string,
+  ) {
+    this.logger.info({ reqId, collectionId }, "Getting many todos for collection")
+
+    const todos = await this.prisma.todo.findMany({
+      where: {
+        collectionId,
+        creatorId: userId,
+      },
+    })
+
+    const content = todos.map((todo) => {
+      return todo.content
+    })
+
+    console.log("content", content)
+
+    return todos
   }
 }
