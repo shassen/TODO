@@ -76,12 +76,6 @@ export class TodoService {
       },
     })
 
-    const content = todos.map((todo) => {
-      return todo.content
-    })
-
-    console.log("content", content)
-
     return todos
   }
 }
