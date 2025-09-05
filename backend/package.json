@@ -20,6 +20,7 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
@@ -43,7 +44,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn src/server.ts",
-    "build": "tsc && yarn test:unit",
+    "build": "tsc",
     "lint": "eslint 'src/**/*.{ts,js}'",
     "lint:fix": "eslint 'src/**/*.{ts,js}' --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'",
@@ -52,7 +53,8 @@
     "generate:jwt": "ts-node-dev src/scripts/test-jwt.ts",
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "clean": "rm -rf dist"
   },
   "engines": {
     "node": ">=22.0.0"

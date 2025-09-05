@@ -6,7 +6,11 @@
     "dev": "next dev --port 3001 --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "rm -rf .next"
   },
   "dependencies": {
     "@apollo/client": "^4.0.2",
