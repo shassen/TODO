@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["./src/types", "./node_modules/@types"]
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "moduleResolution": "node16",
   },
   "include": ["src/**/*", "src/types/**/*"],
   "exclude": ["node_modules", "src/**/*.test.ts"]

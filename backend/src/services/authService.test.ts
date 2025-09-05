@@ -1,13 +1,12 @@
 import { describe, it, expect, vi, afterEach, beforeEach, beforeAll, afterAll } from "vitest"
 import * as bcrypt from "bcrypt"
-import { authServiceMock, loggerMock, jwtMock } from "../mocks"
+import { authServiceMock } from "../mocks"
 
 describe("authService test suite", () => {
   const reqId = "reqId-123"
   const password = "password123"
   const hashedPassword = "hashedPassword123"
   const wrongPassword = "wrongPassword123"
-  const userId = "userId-123"
 
   beforeAll(() => {
     vi.stubEnv("JWT_SECRET", "super_secret_secret")
