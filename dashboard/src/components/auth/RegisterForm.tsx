@@ -64,7 +64,7 @@ export const RegisterForm = () => {
         )}
 
         <Input
-          label="Full Name"
+          name="Full Name"
           type="text"
           value={formData.name}
           onChange={handleChange("name")}
@@ -72,7 +72,7 @@ export const RegisterForm = () => {
         />
 
         <Input
-          label="Email"
+          name="Email"
           type="email"
           value={formData.email}
           onChange={handleChange("email")}
@@ -81,7 +81,7 @@ export const RegisterForm = () => {
         />
 
         <Input
-          label="Password"
+          name="Password"
           type="password"
           value={formData.password}
           onChange={handleChange("password")}
@@ -90,7 +90,7 @@ export const RegisterForm = () => {
         />
 
         <Input
-          label="Confirm Password"
+          name="Confirm Password"
           type="password"
           value={formData.confirmPassword}
           onChange={handleChange("confirmPassword")}
@@ -98,7 +98,7 @@ export const RegisterForm = () => {
           required
         />
 
-        <Button type="submit" className="w-full" isLoading={isLoading}>
+        <Button type="submit" className="w-full" disabled={isLoading}>
           Create Account
         </Button>
       </form>

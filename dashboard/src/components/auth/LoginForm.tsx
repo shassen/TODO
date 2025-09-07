@@ -44,7 +44,7 @@ export const LoginForm = () => {
         )}
 
         <Input
-          label="Email"
+          name="Email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -53,7 +53,7 @@ export const LoginForm = () => {
         />
 
         <Input
-          label="Password"
+          name="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -61,7 +61,7 @@ export const LoginForm = () => {
           required
         />
 
-        <Button type="submit" className="w-full" isLoading={isLoading}>
+        <Button type="submit" className="w-full" disabled={isLoading}>
           Sign In
         </Button>
       </form>
