@@ -1,7 +1,13 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client"
 import { SetContextLink } from "@apollo/client/link/context"
+import { BatchHttpLink } from "@apollo/client/link/batch-http"
 
-const httpLink = new HttpLink({ uri: "http://localhost:3000/graphql" })
+// decided to use batch http link because it is more efficient for batching requests
+// TODO: consider using standard http link instead
+const httpLink = new BatchHttpLink({
+  uri: "http://localhost:3000/graphql",
+  credentials: "same-origin",
+})
 
 const getToken = () => {
   if (typeof window !== "undefined") {
@@ -25,4 +31,5 @@ const authLink = new SetContextLink((prevContext) => {
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  // ssrMode: typeof window === "undefined",
 })

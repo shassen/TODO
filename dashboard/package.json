@@ -13,7 +13,7 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "@apollo/client": "^4.0.2",
+    "@apollo/client": "^4.0.4",
     "graphql": "^16.11.0",
     "jwt-decode": "^4.0.0",
     "next": "15.5.2",
