@@ -30,3 +30,34 @@ export interface AuthContextType {
   logout: () => void
   isLoading: boolean
 }
+
+export interface Todo {
+  id: string
+  title: string
+  completed: boolean
+  dueDate?: string
+  createdAt: string
+  updatedAt: string
+  creatorId: string
+  collectionId?: string
+  content?: JSON
+  isArchived: boolean
+  isDeleted: boolean
+  archivedAt?: string
+  deletedAt?: string
+}
+
+export interface FetchManyTodosResponse {
+  fetchManyTodos: Todo[]
+}
+
+export interface CreateTodoInput {
+  title: string
+  content?: JSON
+  dueDate?: Date
+  collectionId?: string
+}
+
+export interface CreateTodoResponse {
+  createTodo: Todo
+}

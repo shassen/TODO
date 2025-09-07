@@ -10,33 +10,14 @@ import {
   setTokenInLocalStorage,
   removeTokenFromStorage,
 } from "@/lib/auth"
+import { LOGIN_USER, REGISTER_USER } from "@/graphql/queries"
 
-const LOGIN_USER = gql`
-  mutation LoginUser($data: LoginUserInput!) {
-    loginUser(data: $data) {
-      token
-      user {
-        id
-        email
-        name
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`
+// users:
+// email: cake@cake.com
+// password: cakecake
 
-const REGISTER_USER = gql`
-  mutation RegisterUser($data: RegisterUserInput!) {
-    registerUser(data: $data) {
-      id
-      email
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`
+// email: pizza@pizza.com
+// password: password
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthContextType["user"]>(null)
