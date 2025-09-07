@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { gql } from "@apollo/client"
 import { useMutation } from "@apollo/client/react"
