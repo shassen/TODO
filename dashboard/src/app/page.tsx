@@ -35,14 +35,14 @@ export default function HomePage() {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <div className="flex space-x-4 mb-6">
             <Button
-              variant={isLogin ? "primary" : "outline"}
+              variant={isLogin ? "default" : "outline"}
               className="flex-1"
               onClick={() => setIsLogin(true)}
             >
               Sign In
             </Button>
             <Button
-              variant={!isLogin ? "primary" : "outline"}
+              variant={!isLogin ? "default" : "outline"}
               className="flex-1"
               onClick={() => setIsLogin(false)}
             >

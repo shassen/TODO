@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from "react"
-import { gql } from "@apollo/client"
 import { useMutation } from "@apollo/client/react"
 import { AuthContext } from "@/hooks/useAuth"
 import { AuthContextType, LoginUserInput, LoginUserResponse, RegisterUserInput } from "@/lib/types"
