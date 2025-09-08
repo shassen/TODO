@@ -1,10 +1,11 @@
 "use client"
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { Todo } from "@/lib/types"
+import { useArchiveTodo, useCompleteTodo, useDeleteTodo } from "@/hooks/useTodos"
+import { ArchiveBoxIcon, TrashIcon } from "@heroicons/react/24/outline"
 
 interface TodoListProps {
   todos: Todo[]
@@ -12,6 +13,10 @@ interface TodoListProps {
 }
 
 export const TodoList = ({ todos, loading }: TodoListProps) => {
+  const { deleteTodo, loading: deleteTodoLoading, error: deleteTodoError } = useDeleteTodo()
+  const { archiveTodo, loading: archiveTodoLoading, error: archiveTodoError } = useArchiveTodo()
+  const { completeTodo, loading: completeTodoLoading, error: completeTodoError } = useCompleteTodo()
+
   if (loading) {
     return (
       <Card>
@@ -58,11 +63,12 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
               }`}
             >
               <Checkbox
-                checked={todo.completed}
-                onChange={() => {
-                  // TODO: Implement toggle completion
+                title="Complete todo"
+                onClick={() => {
                   console.log("Toggle todo:", todo.id)
+                  completeTodo({ id: todo.id, completed: !todo.completed })
                 }}
+                checked={todo.completed}
               />
 
               <div className="flex-1 min-w-0">
@@ -84,21 +90,25 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
               <div className="flex items-center space-x-2">
                 {todo.completed && (
                   <Badge variant="secondary" className="text-xs">
-                    Done
+                    Complete
                   </Badge>
                 )}
 
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <TrashIcon
+                  title="Delete todo"
+                  className="size-3 cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
                   onClick={() => {
-                    // TODO: Implement delete
-                    console.log("Delete todo:", todo.id)
+                    deleteTodo(todo.id)
                   }}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                >
-                  ×
-                </Button>
+                />
+
+                <ArchiveBoxIcon
+                  title="Archive todo"
+                  className="size-3 cursor-pointer text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                  onClick={() => {
+                    archiveTodo(todo.id)
+                  }}
+                />
               </div>
             </div>
           ))}

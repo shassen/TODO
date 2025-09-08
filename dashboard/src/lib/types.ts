@@ -61,3 +61,20 @@ export interface CreateTodoInput {
 export interface CreateTodoResponse {
   createTodo: Todo
 }
+
+export interface DeleteTodoResponse {
+  deleteTodo: Todo
+}
+
+export interface CompleteTodoResponse {
+  completeTodo: Todo
+}
+
+export interface ArchiveTodoResponse {
+  archiveTodo: Todo
+}
+
+export interface CompleteTodoInput {
+  id: string
+  completed: boolean
+}

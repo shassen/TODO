@@ -1,5 +1,5 @@
 import { Collection, PrismaClient, Todo } from "../generated/prisma"
-import { CreateTodoInput } from "../graphql/TodoCustomResolver"
+import { CompleteTodoInput, CreateTodoInput } from "../graphql/TodoCustomResolver"
 import { FastifyBaseLogger } from "fastify"
 
 export type TodoServiceProps = {
@@ -31,6 +31,11 @@ export class TodoService {
         creator: {
           id: userId,
         },
+        isDeleted: false,
+        isArchived: false,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     })
   }
@@ -61,6 +66,35 @@ export class TodoService {
     })
 
     return todo
+  }
+
+  async deleteTodo(reqId: string, { userId, id }: UserId & { id: string }) {
+    this.logger.info({ reqId, userId, id }, "Deleting todo")
+    return await this.prisma.todo.update({
+      where: {
+        id,
+        creatorId: userId,
+      },
+      data: {
+        isDeleted: true,
+      },
+    })
+  }
+
+  async completeTodo(reqId: string, { userId, id, completed }: CompleteTodoInput & UserId) {
+    this.logger.info({ reqId, userId, id }, "Completing todo")
+    return await this.prisma.todo.update({
+      where: { id, creatorId: userId },
+      data: { completed },
+    })
+  }
+
+  async archiveTodo(reqId: string, { userId, id }: UserId & { id: string }) {
+    this.logger.info({ reqId, userId, id }, "Archiving todo")
+    return await this.prisma.todo.update({
+      where: { id, creatorId: userId },
+      data: { isArchived: true },
+    })
   }
 
   async getManyTodosByCollectionId(

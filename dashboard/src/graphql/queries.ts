@@ -27,6 +27,30 @@ export const CREATE_TODO = gql`
   }
 `
 
+export const DELETE_TODO = gql`
+  mutation DeleteTodo($id: String!) {
+    deleteTodo(id: $id) {
+      id
+    }
+  }
+`
+
+export const COMPLETE_TODO = gql`
+  mutation CompleteTodo($data: CompleteTodoInput!) {
+    completeTodo(data: $data) {
+      id
+    }
+  }
+`
+
+export const ARCHIVE_TODO = gql`
+  mutation ArchiveTodo($id: String!) {
+    archiveTodo(id: $id) {
+      id
+    }
+  }
+`
+
 export const LOGIN_USER = gql`
   mutation LoginUser($data: LoginUserInput!) {
     loginUser(data: $data) {
