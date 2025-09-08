@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
-import { Card } from "@/components/ui/Card"
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("")
@@ -20,7 +19,6 @@ export const LoginForm = () => {
     setIsLoading(true)
 
     try {
-      // Redirect will be handled by the auth context
       await login({ email, password })
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed. Please try again.")
@@ -30,10 +28,10 @@ export const LoginForm = () => {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Welcome back</h2>
-        <p className="text-gray-600 mt-2">Sign in to your account</p>
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Welcome back</h2>
+        <p className="text-sm sm:text-base text-gray-600 mt-2">Sign in to your account</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -43,28 +41,40 @@ export const LoginForm = () => {
           </div>
         )}
 
-        <Input
-          name="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-        />
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+            className="w-full"
+          />
+        </div>
 
-        <Input
-          name="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-          required
-        />
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <Input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            required
+            className="w-full"
+          />
+        </div>
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          Sign In
+        <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+          {isLoading ? "Signing in..." : "Sign In"}
         </Button>
       </form>
-    </Card>
+    </div>
   )
 }

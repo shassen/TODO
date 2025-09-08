@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
-import { Card } from "@/components/ui/Card"
 
 export const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -35,8 +34,11 @@ export const RegisterForm = () => {
     setIsLoading(true)
 
     try {
-      // Redirect will be handled by the auth context
-      await register({ email: formData.email, password: formData.password, name: formData.name })
+      await register({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+      })
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Registration failed. Please try again.")
     } finally {
@@ -50,10 +52,10 @@ export const RegisterForm = () => {
     }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Create account</h2>
-        <p className="text-gray-600 mt-2">Sign up to get started</p>
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Create account</h2>
+        <p className="text-sm sm:text-base text-gray-600 mt-2">Sign up to get started</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -63,45 +65,69 @@ export const RegisterForm = () => {
           </div>
         )}
 
-        <Input
-          name="Full Name"
-          type="text"
-          value={formData.name}
-          onChange={handleChange("name")}
-          placeholder="Enter your full name"
-        />
+        <div className="space-y-2">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            Full Name
+          </label>
+          <Input
+            id="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange("name")}
+            placeholder="Enter your full name"
+            className="w-full"
+          />
+        </div>
 
-        <Input
-          name="Email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange("email")}
-          placeholder="Enter your email"
-          required
-        />
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <Input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange("email")}
+            placeholder="Enter your email"
+            required
+            className="w-full"
+          />
+        </div>
 
-        <Input
-          name="Password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange("password")}
-          placeholder="Create a password"
-          required
-        />
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <Input
+            id="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange("password")}
+            placeholder="Create a password"
+            required
+            className="w-full"
+          />
+        </div>
 
-        <Input
-          name="Confirm Password"
-          type="password"
-          value={formData.confirmPassword}
-          onChange={handleChange("confirmPassword")}
-          placeholder="Confirm your password"
-          required
-        />
+        <div className="space-y-2">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            Confirm Password
+          </label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange("confirmPassword")}
+            placeholder="Confirm your password"
+            required
+            className="w-full"
+          />
+        </div>
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          Create Account
+        <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+          {isLoading ? "Creating account..." : "Create Account"}
         </Button>
       </form>
-    </Card>
+    </div>
   )
 }

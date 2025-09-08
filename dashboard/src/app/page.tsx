@@ -23,27 +23,30 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-6 px-4 sm:py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">TODO App</h1>
-          <p className="mt-2 text-gray-600">Organize your tasks and boost your productivity</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Your todo app</h1>
+          <p className="mt-4 text-sm sm:text-base text-gray-600">
+            We all need a little help staying organized. Keep mind clear and your todo list
+            organized.
+          </p>
         </div>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <div className="flex space-x-4 mb-6">
+      <div className="mt-6 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-6 px-4 shadow sm:rounded-lg sm:px-8 sm:py-8">
+          <div className="flex space-x-2 sm:space-x-4 mb-6">
             <Button
               variant={isLogin ? "default" : "outline"}
-              className="flex-1"
+              className="flex-1 text-sm sm:text-base"
               onClick={() => setIsLogin(true)}
             >
               Sign In
             </Button>
             <Button
               variant={!isLogin ? "default" : "outline"}
-              className="flex-1"
+              className="flex-1 text-sm sm:text-base"
               onClick={() => setIsLogin(false)}
             >
               Sign Up

@@ -7,6 +7,7 @@ export const useTodos = () => {
   const { data, loading, error, refetch } = useQuery<FetchManyTodosResponse>(FETCH_MANY_TODOS, {
     errorPolicy: "all",
   })
+
   return {
     todos: data?.fetchManyTodos || [],
     loading,
