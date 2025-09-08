@@ -79,6 +79,11 @@ input CollectionWhereInput {
   todos: TodoListRelationFilter
 }
 
+input CompleteTodoInput {
+  completed: Boolean!
+  id: String!
+}
+
 input CreateCollectionInput {
   description: String
   name: String!
@@ -137,8 +142,11 @@ type LoginUserResponse {
 }
 
 type Mutation {
+  archiveTodo(id: String!): Todo!
+  completeTodo(data: CompleteTodoInput!): Todo!
   createCollection(data: CreateCollectionInput!): Collection!
   createTodo(data: CreateTodoInput!): Todo!
+  deleteTodo(id: String!): Todo!
   loginUser(data: LoginUserInput!): LoginUserResponse!
   logoutUser: Boolean!
   registerUser(data: RegisterUserInput!): User!

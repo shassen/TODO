@@ -19,6 +19,15 @@ export class CreateTodoInput {
   collectionId?: string
 }
 
+@InputType("CompleteTodoInput")
+export class CompleteTodoInput {
+  @Field(() => String)
+  id!: string
+
+  @Field(() => Boolean)
+  completed!: boolean
+}
+
 @Resolver(Todo)
 export class TodoCustomResolver {
   @Query(() => [Todo])
@@ -42,5 +51,44 @@ export class TodoCustomResolver {
 
     const { userId } = user
     return todoService.createTodo(reqId, { userId, ...data })
+  }
+
+  @Mutation(() => Todo)
+  async deleteTodo(
+    @Arg("id") id: string,
+    @Ctx() { user, todoService, reqId }: GraphQLContext,
+  ): Promise<Todo> {
+    if (!user) {
+      throw new Error("User ID is required to delete a todo")
+    }
+
+    const { userId } = user
+    return todoService.deleteTodo(reqId, { userId, id })
+  }
+
+  @Mutation(() => Todo)
+  async completeTodo(
+    @Arg("data") data: CompleteTodoInput,
+    @Ctx() { user, todoService, reqId }: GraphQLContext,
+  ): Promise<Todo> {
+    if (!user) {
+      throw new Error("User ID is required to complete a todo")
+    }
+
+    const { userId } = user
+    return todoService.completeTodo(reqId, { userId, ...data })
+  }
+
+  @Mutation(() => Todo)
+  async archiveTodo(
+    @Arg("id") id: string,
+    @Ctx() { user, todoService, reqId }: GraphQLContext,
+  ): Promise<Todo> {
+    if (!user) {
+      throw new Error("User ID is required to archive a todo")
+    }
+
+    const { userId } = user
+    return todoService.archiveTodo(reqId, { userId, id })
   }
 }
