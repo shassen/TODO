@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button"
 import { Todo } from "@/lib/types"
 import { useTodos } from "@/hooks/useTodos"
 import { CreateTodoForm } from "@/components/todos/CreateTodoForm"
+import { TodoList } from "@/components/todos/TodoList"
 
 export default function DashboardPage() {
   const { todos, loading, error } = useTodos()
@@ -45,9 +46,9 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Dashboard</h1>
+            {/* <h1 className="text-3xl font-bold text-gray-900 mb-6">Dashboard</h1> */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Total Tasks</CardTitle>
@@ -85,23 +86,11 @@ export default function DashboardPage() {
                   </p>
                 </CardContent>
               </Card>
-            </div>
+            </div> */}
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
               <CreateTodoForm />
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <p className="text-gray-600">• Create your first task</p>
-                    <p className="text-gray-600">• Organize tasks into collections</p>
-                    <p className="text-gray-600">• Set due dates and priorities</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <TodoList todos={todos} loading={loading} />
             </div>
           </div>
         </div>
