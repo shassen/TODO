@@ -78,3 +78,43 @@ export interface CompleteTodoInput {
   id: string
   completed: boolean
 }
+
+export enum Permission {
+  COMPLETE,
+  VIEW,
+  EDIT,
+  OWNER,
+}
+
+export interface CollectionCollaborator {
+  id: string
+  permission: Permission
+  collectionId: string
+  userId: string
+}
+
+export interface Collection {
+  id: string
+  name: string
+  description: string
+  updatedAt: string
+  todos: Todo[]
+  collaborators: CollectionCollaborator[]
+}
+
+export interface FetchManyCollectionsResponse {
+  fetchManyCollections: Collection[]
+}
+
+export interface CreateCollectionInput {
+  name: string
+  description: string
+}
+
+export interface CreateCollectionResponse {
+  createCollection: Collection
+}
+
+export interface DeleteCollectionResponse {
+  deleteCollection: Collection
+}
