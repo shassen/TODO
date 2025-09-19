@@ -11,6 +11,7 @@ input BoolFilter {
 type Collection {
   _count: CollectionCount
   archivedAt: DateTimeISO
+  collaborators: [CollectionCollaborator!]!
   createdAt: DateTimeISO!
   deletedAt: DateTimeISO
   description: String
@@ -22,6 +23,13 @@ type Collection {
   ownerId: String!
   todos: [Todo!]!
   updatedAt: DateTimeISO!
+}
+
+type CollectionCollaborator {
+  collectionId: String!
+  id: String!
+  permission: Permission!
+  userId: String!
 }
 
 input CollectionCollaboratorListRelationFilter {
@@ -113,6 +121,10 @@ input DateTimeNullableFilter {
   notIn: [DateTimeISO!]
 }
 
+input DeleteCollectionInput {
+  id: String!
+}
+
 input EnumPermissionFilter {
   equals: Permission
   in: [Permission!]
@@ -146,6 +158,7 @@ type Mutation {
   completeTodo(data: CompleteTodoInput!): Todo!
   createCollection(data: CreateCollectionInput!): Collection!
   createTodo(data: CreateTodoInput!): Todo!
+  deleteCollection(data: DeleteCollectionInput!): Collection!
   deleteTodo(id: String!): Todo!
   loginUser(data: LoginUserInput!): LoginUserResponse!
   logoutUser: Boolean!
@@ -213,7 +226,7 @@ enum Permission {
 }
 
 type Query {
-  fetchManyCollectiones: [Collection!]!
+  fetchManyCollections: [Collection!]!
   fetchManyTodos: [Todo!]!
   findUser: User
 }
