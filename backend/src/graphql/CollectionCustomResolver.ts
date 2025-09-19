@@ -57,8 +57,6 @@ export class CollectionCustomResolver {
     }
 
     const { userId } = user
-    console.log("userId", userId)
-
     return collectionService.getManyCollections({ userId }, reqId)
   }
 

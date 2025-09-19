@@ -79,11 +79,11 @@ export interface CompleteTodoInput {
   completed: boolean
 }
 
-export interface Permission {
-  COMPLETE: "COMPLETE"
-  VIEW: "VIEW"
-  EDIT: "EDIT"
-  OWNER: "OWNER"
+export enum Permission {
+  COMPLETE,
+  VIEW,
+  EDIT,
+  OWNER,
 }
 
 export interface CollectionCollaborator {

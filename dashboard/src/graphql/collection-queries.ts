@@ -32,19 +32,20 @@ export const CREATE_COLLECTION = gql`
 `
 
 export const DELETE_COLLECTION = gql`
-  mutation DeleteCollection($id: String!) {
-    deleteCollection(id: $id) {
+  mutation DeleteCollection($data: DeleteCollectionInput!) {
+    deleteCollection(data: $data) {
       id
     }
   }
 `
 
-export const UPDATE_COLLECTION = gql`
-  mutation UpdateCollection($data: UpdateCollectionInput!) {
-    updateCollection(data: $data) {
-      id
-      name
-      description
-    }
-  }
-`
+// TODO: Add update collection functionality soon
+// export const UPDATE_COLLECTION = gql`
+//   mutation UpdateCollection($data: UpdateCollectionInput!) {
+//     updateCollection(data: $data) {
+//       id
+//       name
+//       description
+//     }
+//   }
+// `

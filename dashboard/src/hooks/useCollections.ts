@@ -5,7 +5,7 @@ import {
   FETCH_MANY_COLLECTIONS,
   CREATE_COLLECTION,
   DELETE_COLLECTION,
-  UPDATE_COLLECTION,
+  // UPDATE_COLLECTION,
 } from "@/graphql/collection-queries"
 import {
   CreateCollectionInput,
