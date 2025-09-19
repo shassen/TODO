@@ -70,7 +70,6 @@ export class CollectionService {
 
   async getCollaborators({ id, userId }: UserId & GetCollaboratorsInput, reqId: string) {
     this.logger.info({ reqId, userId }, "Getting collaborators")
-    console.log("id", id)
     return await this.prisma.collectionCollaborator.findMany({
       where: {
         collectionId: id,

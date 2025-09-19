@@ -65,7 +65,6 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
               <Checkbox
                 title="Complete todo"
                 onClick={() => {
-                  console.log("Toggle todo:", todo.id)
                   completeTodo({ id: todo.id, completed: !todo.completed })
                 }}
                 checked={todo.completed}

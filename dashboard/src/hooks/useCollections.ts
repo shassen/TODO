@@ -55,7 +55,7 @@ export const useDeleteCollection = () => {
 
   const deleteCollection = async (id: string) => {
     try {
-      const result = await deleteCollectionMutation({ variables: { id } })
+      const result = await deleteCollectionMutation({ variables: { data: { id } } })
       await refetch()
       return result.data!.deleteCollection
     } catch (error) {
