@@ -124,3 +124,7 @@ export const useArchiveTodo = () => {
     error,
   }
 }
+
+export const useUpdateTodo = () => {
+  console.log("useUpdateTodo")
+}

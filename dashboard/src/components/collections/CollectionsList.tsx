@@ -64,7 +64,7 @@ export const CollectionsList = ({ collections, loading }: CollectionsListProps) 
 
               <div className="flex items-center space-x-2">
                 <Badge variant="outline" className="text-xs">
-                  {collection.todos.length} todos
+                  todos: {collection.todos.length}
                 </Badge>
               </div>
             </div>
