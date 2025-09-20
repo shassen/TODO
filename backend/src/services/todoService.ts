@@ -1,5 +1,5 @@
 import { Collection, PrismaClient, Todo } from "../generated/prisma"
-import { CompleteTodoInput, CreateTodoInput } from "../graphql/TodoCustomResolver"
+import { CompleteTodoInput, CreateTodoInput, UpdateTodoInput } from "../graphql/TodoCustomResolver"
 import { FastifyBaseLogger } from "fastify"
 
 export type TodoServiceProps = {
@@ -66,6 +66,25 @@ export class TodoService {
     })
 
     return todo
+  }
+
+  async updateTodo(
+    reqId: string,
+    { userId, id, title, content, dueDate, collectionId }: UserId & UpdateTodoInput,
+  ) {
+    this.logger.info({ reqId, userId, id }, "Updating todo")
+    return await this.prisma.todo.update({
+      where: {
+        id,
+        creatorId: userId,
+      },
+      data: {
+        title,
+        content,
+        dueDate,
+        collection: collectionId ? { connect: { id: collectionId } } : undefined,
+      },
+    })
   }
 
   async deleteTodo(reqId: string, { userId, id }: UserId & { id: string }) {

@@ -6,6 +6,7 @@ import {
   DELETE_TODO,
   COMPLETE_TODO,
   ARCHIVE_TODO,
+  UPDATE_TODO,
 } from "../graphql/todo-queries"
 import {
   CreateTodoInput,
@@ -16,6 +17,8 @@ import {
   CompleteTodoResponse,
   ArchiveTodoResponse,
   CompleteTodoInput,
+  UpdateTodoResponse,
+  UpdateTodoInput,
 } from "../lib/types"
 
 export const useTodos = () => {
@@ -126,5 +129,24 @@ export const useArchiveTodo = () => {
 }
 
 export const useUpdateTodo = () => {
-  console.log("useUpdateTodo")
+  const [updateTodoMutation, { loading, error }] = useMutation<UpdateTodoResponse>(UPDATE_TODO)
+  const { refetch } = useTodos()
+
+  const updateTodo = async (data: UpdateTodoInput) => {
+    try {
+      const result = await updateTodoMutation({ variables: { data } })
+
+      await refetch()
+
+      return result.data!.updateTodo
+    } catch (error) {
+      throw error
+    }
+  }
+
+  return {
+    updateTodo,
+    loading,
+    error,
+  }
 }

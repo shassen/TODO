@@ -27,6 +27,14 @@ export const CREATE_TODO = gql`
   }
 `
 
+export const UPDATE_TODO = gql`
+  mutation UpdateTodo($data: UpdateTodoInput!) {
+    updateTodo(data: $data) {
+      id
+    }
+  }
+`
+
 export const DELETE_TODO = gql`
   mutation DeleteTodo($id: String!) {
     deleteTodo(id: $id) {
