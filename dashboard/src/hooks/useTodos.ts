@@ -6,7 +6,7 @@ import {
   DELETE_TODO,
   COMPLETE_TODO,
   ARCHIVE_TODO,
-} from "../graphql/queries"
+} from "../graphql/todo-queries"
 import {
   CreateTodoInput,
   Todo,
@@ -123,4 +123,8 @@ export const useArchiveTodo = () => {
     loading,
     error,
   }
+}
+
+export const useUpdateTodo = () => {
+  console.log("useUpdateTodo")
 }
