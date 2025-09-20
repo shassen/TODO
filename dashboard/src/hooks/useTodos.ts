@@ -6,7 +6,7 @@ import {
   DELETE_TODO,
   COMPLETE_TODO,
   ARCHIVE_TODO,
-} from "../graphql/queries"
+} from "../graphql/todo-queries"
 import {
   CreateTodoInput,
   Todo,

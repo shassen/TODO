@@ -9,7 +9,7 @@ import {
   setTokenInLocalStorage,
   removeTokenFromStorage,
 } from "@/lib/auth"
-import { LOGIN_USER, REGISTER_USER } from "@/graphql/queries"
+import { LOGIN_USER, REGISTER_USER } from "@/graphql/auth-queries"
 
 // users:
 // email: cake@cake.com
