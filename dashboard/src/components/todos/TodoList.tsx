@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -6,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Todo } from "@/lib/types"
 import { useArchiveTodo, useCompleteTodo, useDeleteTodo } from "@/hooks/useTodos"
 import { ArchiveBoxIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { UpdateTodoModal } from "./UpdateTodoModal"
 
 interface TodoListProps {
   todos: Todo[]
@@ -13,9 +15,21 @@ interface TodoListProps {
 }
 
 export const TodoList = ({ todos, loading }: TodoListProps) => {
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
+  const [updateModalOpen, setUpdateModalOpen] = useState(false)
+
   const { deleteTodo, loading: deleteTodoLoading, error: deleteTodoError } = useDeleteTodo()
   const { archiveTodo, loading: archiveTodoLoading, error: archiveTodoError } = useArchiveTodo()
   const { completeTodo, loading: completeTodoLoading, error: completeTodoError } = useCompleteTodo()
+
+  const handleTodoClick = (todo: Todo) => {
+    setSelectedTodo(todo)
+    setUpdateModalOpen(true)
+  }
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation() // Prevent todo click when clicking action buttons
+  }
 
   if (loading) {
     return (
@@ -49,70 +63,81 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Your Todos</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {todos.map((todo) => (
-            <div
-              key={todo.id}
-              className={`flex items-center space-x-3 p-3 rounded-lg border ${
-                todo.completed ? "bg-gray-50 border-gray-200" : "bg-white border-gray-300"
-              }`}
-            >
-              <Checkbox
-                title="Complete todo"
-                onClick={() => {
-                  completeTodo({ id: todo.id, completed: !todo.completed })
-                }}
-                checked={todo.completed}
-              />
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Your Todos</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {todos.map((todo) => (
+              <div
+                key={todo.id}
+                className={`flex items-center space-x-3 p-3 rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors ${
+                  todo.completed ? "bg-gray-50 border-gray-200" : "bg-white border-gray-300"
+                }`}
+                onClick={() => handleTodoClick(todo)}
+              >
+                <div onClick={handleActionClick}>
+                  <Checkbox
+                    title="Complete todo"
+                    onClick={() => {
+                      completeTodo({ id: todo.id, completed: !todo.completed })
+                    }}
+                    checked={todo.completed}
+                  />
+                </div>
 
-              <div className="flex-1 min-w-0">
-                <p
-                  className={`text-sm font-medium ${
-                    todo.completed ? "line-through text-gray-500" : "text-gray-900"
-                  }`}
-                >
-                  {todo.title}
-                </p>
-
-                {todo.dueDate && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Due: {new Date(todo.dueDate).toLocaleDateString()}
+                <div className="flex-1 min-w-0">
+                  <p
+                    className={`text-sm font-medium ${
+                      todo.completed ? "line-through text-gray-500" : "text-gray-900"
+                    }`}
+                  >
+                    {todo.title}
                   </p>
-                )}
+
+                  {todo.dueDate && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Due: {new Date(todo.dueDate).toLocaleDateString()}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center space-x-2" onClick={handleActionClick}>
+                  {todo.completed && (
+                    <Badge variant="secondary" className="text-xs">
+                      Complete
+                    </Badge>
+                  )}
+
+                  <TrashIcon
+                    title="Delete todo"
+                    className="size-3 cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
+                    onClick={() => {
+                      deleteTodo(todo.id)
+                    }}
+                  />
+
+                  <ArchiveBoxIcon
+                    title="Archive todo"
+                    className="size-3 cursor-pointer text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                    onClick={() => {
+                      archiveTodo(todo.id)
+                    }}
+                  />
+                </div>
               </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-              <div className="flex items-center space-x-2">
-                {todo.completed && (
-                  <Badge variant="secondary" className="text-xs">
-                    Complete
-                  </Badge>
-                )}
-
-                <TrashIcon
-                  title="Delete todo"
-                  className="size-3 cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
-                  onClick={() => {
-                    deleteTodo(todo.id)
-                  }}
-                />
-
-                <ArchiveBoxIcon
-                  title="Archive todo"
-                  className="size-3 cursor-pointer text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                  onClick={() => {
-                    archiveTodo(todo.id)
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+      <UpdateTodoModal
+        todo={selectedTodo}
+        open={updateModalOpen}
+        onOpenChange={setUpdateModalOpen}
+      />
+    </>
   )
 }

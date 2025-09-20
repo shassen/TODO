@@ -1,4 +1,6 @@
-import { useState } from "react"
+"use client"
+
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import {
@@ -9,17 +11,34 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
-import { useCreateTodo } from "@/hooks/useTodos"
+import { useUpdateTodo } from "@/hooks/useTodos"
 import { useCollections } from "@/hooks/useCollections"
+import { Todo } from "@/lib/types"
 import { X } from "lucide-react"
 
-export const CreateTodoForm = () => {
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState({})
-  const [dueDate, setDueDate] = useState<string>("")
-  const [collectionId, setCollectionId] = useState<string | undefined>(undefined)
-  const { createTodo, loading, error } = useCreateTodo()
+interface UpdateTodoFormProps {
+  todo: Todo
+  onSuccess?: () => void
+}
+
+export const UpdateTodoForm = ({ todo, onSuccess }: UpdateTodoFormProps) => {
+  const [title, setTitle] = useState(todo.title)
+  const [content, setContent] = useState(todo.content || {})
+  const [dueDate, setDueDate] = useState<string>(
+    todo.dueDate ? new Date(todo.dueDate).toISOString().split("T")[0] : "",
+  )
+  const [collectionId, setCollectionId] = useState<string | undefined>(
+    todo.collectionId || undefined,
+  )
+  const { updateTodo, loading, error } = useUpdateTodo()
   const { collections, loading: collectionsLoading } = useCollections()
+
+  useEffect(() => {
+    setTitle(todo.title)
+    setContent(todo.content || {})
+    setDueDate(todo.dueDate ? new Date(todo.dueDate).toISOString().split("T")[0] : "")
+    setCollectionId(todo.collectionId || undefined)
+  }, [todo])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,31 +46,29 @@ export const CreateTodoForm = () => {
     if (!title.trim()) return
 
     try {
-      await createTodo({
-        title,
+      await updateTodo({
+        id: todo.id,
+        title: title.trim(),
         dueDate: dueDate ? new Date(dueDate) : undefined,
         collectionId: collectionId || undefined,
       })
 
-      setTitle("")
-      setContent({})
-      setDueDate("")
-      setCollectionId(undefined)
+      onSuccess?.()
     } catch (err) {
-      console.error("failed to create todo", err)
+      console.error("failed to update todo", err)
     }
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add New Todo</CardTitle>
+        <CardTitle>Update Todo</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-md p-3">
-              <p className="text-sm text-red-600">{error.message || "Failed to create todo"}</p>
+              <p className="text-sm text-red-600">{error.message || "Failed to update todo"}</p>
             </div>
           )}
 
@@ -117,7 +134,7 @@ export const CreateTodoForm = () => {
           </div>
 
           <Button type="submit" className="w-full" disabled={loading || !title.trim()}>
-            {loading ? "Creating..." : "Add Todo"}
+            {loading ? "Updating..." : "Update Todo"}
           </Button>
         </form>
       </CardContent>

@@ -82,7 +82,7 @@ export class TodoService {
         title,
         content,
         dueDate,
-        collection: collectionId ? { connect: { id: collectionId } } : undefined,
+        collection: collectionId ? { connect: { id: collectionId } } : { disconnect: true },
       },
     })
   }

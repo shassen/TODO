@@ -7,6 +7,7 @@ export const FETCH_MANY_TODOS = gql`
       title
       content
       completed
+      dueDate
       collectionId
     }
   }
@@ -31,6 +32,14 @@ export const UPDATE_TODO = gql`
   mutation UpdateTodo($data: UpdateTodoInput!) {
     updateTodo(data: $data) {
       id
+      title
+      content
+      completed
+      dueDate
+      createdAt
+      updatedAt
+      creatorId
+      collectionId
     }
   }
 `
