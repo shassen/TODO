@@ -6,7 +6,9 @@ import {
   DELETE_TODO,
   COMPLETE_TODO,
   ARCHIVE_TODO,
+  UPDATE_TODO,
 } from "../graphql/todo-queries"
+import { FETCH_MANY_COLLECTIONS } from "../graphql/collection-queries"
 import {
   CreateTodoInput,
   Todo,
@@ -16,6 +18,8 @@ import {
   CompleteTodoResponse,
   ArchiveTodoResponse,
   CompleteTodoInput,
+  UpdateTodoResponse,
+  UpdateTodoInput,
 } from "../lib/types"
 
 export const useTodos = () => {
@@ -32,16 +36,15 @@ export const useTodos = () => {
 }
 
 export const useCreateTodo = () => {
-  const [createTodoMutation, { loading, error }] = useMutation<CreateTodoResponse>(CREATE_TODO)
-  const { refetch } = useTodos()
+  const [createTodoMutation, { loading, error }] = useMutation<CreateTodoResponse>(CREATE_TODO, {
+    refetchQueries: [{ query: FETCH_MANY_TODOS }, { query: FETCH_MANY_COLLECTIONS }],
+  })
 
   const createTodo = async (data: CreateTodoInput) => {
     try {
       const result = await createTodoMutation({
         variables: { data },
       })
-
-      await refetch()
 
       return result.data!.createTodo
     } catch (error) {
@@ -56,14 +59,13 @@ export const useCreateTodo = () => {
 }
 
 export const useDeleteTodo = () => {
-  const [deleteTodoMutation, { loading, error }] = useMutation<DeleteTodoResponse>(DELETE_TODO)
-  const { refetch } = useTodos()
+  const [deleteTodoMutation, { loading, error }] = useMutation<DeleteTodoResponse>(DELETE_TODO, {
+    refetchQueries: [{ query: FETCH_MANY_TODOS }, { query: FETCH_MANY_COLLECTIONS }],
+  })
 
   const deleteTodo = async (id: string) => {
     try {
       const result = await deleteTodoMutation({ variables: { id } })
-
-      await refetch()
 
       return result.data!.deleteTodo
     } catch (error) {
@@ -79,15 +81,16 @@ export const useDeleteTodo = () => {
 }
 
 export const useCompleteTodo = () => {
-  const [completeTodoMutation, { loading, error }] =
-    useMutation<CompleteTodoResponse>(COMPLETE_TODO)
-  const { refetch } = useTodos()
+  const [completeTodoMutation, { loading, error }] = useMutation<CompleteTodoResponse>(
+    COMPLETE_TODO,
+    {
+      refetchQueries: [{ query: FETCH_MANY_TODOS }, { query: FETCH_MANY_COLLECTIONS }],
+    },
+  )
 
   const completeTodo = async (data: CompleteTodoInput) => {
     try {
       const result = await completeTodoMutation({ variables: { data } })
-
-      await refetch()
 
       return result.data!.completeTodo
     } catch (error) {
@@ -103,14 +106,13 @@ export const useCompleteTodo = () => {
 }
 
 export const useArchiveTodo = () => {
-  const [archiveTodoMutation, { loading, error }] = useMutation<ArchiveTodoResponse>(ARCHIVE_TODO)
-  const { refetch } = useTodos()
+  const [archiveTodoMutation, { loading, error }] = useMutation<ArchiveTodoResponse>(ARCHIVE_TODO, {
+    refetchQueries: [{ query: FETCH_MANY_TODOS }, { query: FETCH_MANY_COLLECTIONS }],
+  })
 
   const archiveTodo = async (id: string) => {
     try {
       const result = await archiveTodoMutation({ variables: { id } })
-
-      await refetch()
 
       return result.data!.archiveTodo
     } catch (error) {
@@ -126,5 +128,23 @@ export const useArchiveTodo = () => {
 }
 
 export const useUpdateTodo = () => {
-  console.log("useUpdateTodo")
+  const [updateTodoMutation, { loading, error }] = useMutation<UpdateTodoResponse>(UPDATE_TODO, {
+    refetchQueries: [{ query: FETCH_MANY_TODOS }, { query: FETCH_MANY_COLLECTIONS }],
+  })
+
+  const updateTodo = async (data: UpdateTodoInput) => {
+    try {
+      const result = await updateTodoMutation({ variables: { data } })
+
+      return result.data!.updateTodo
+    } catch (error) {
+      throw error
+    }
+  }
+
+  return {
+    updateTodo,
+    loading,
+    error,
+  }
 }

@@ -62,6 +62,18 @@ export interface CreateTodoResponse {
   createTodo: Todo
 }
 
+export interface UpdateTodoInput {
+  id: string
+  title?: string
+  content?: JSON
+  dueDate?: Date
+  collectionId?: string
+}
+
+export interface UpdateTodoResponse {
+  updateTodo: Todo
+}
+
 export interface DeleteTodoResponse {
   deleteTodo: Todo
 }

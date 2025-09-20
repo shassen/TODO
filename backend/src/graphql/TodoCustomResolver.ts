@@ -19,6 +19,24 @@ export class CreateTodoInput {
   collectionId?: string
 }
 
+@InputType("UpdateTodoInput")
+export class UpdateTodoInput {
+  @Field(() => String)
+  id!: string
+
+  @Field(() => String, { nullable: true })
+  title?: string
+
+  @Field(() => GraphQLJSON, { nullable: true })
+  content?: InputJsonValue
+
+  @Field(() => Date, { nullable: true })
+  dueDate?: Date
+
+  @Field(() => String, { nullable: true })
+  collectionId?: string
+}
+
 @InputType("CompleteTodoInput")
 export class CompleteTodoInput {
   @Field(() => String)
@@ -51,6 +69,19 @@ export class TodoCustomResolver {
 
     const { userId } = user
     return todoService.createTodo(reqId, { userId, ...data })
+  }
+
+  @Mutation(() => Todo)
+  async updateTodo(
+    @Arg("data") data: UpdateTodoInput,
+    @Ctx() { user, todoService, reqId }: GraphQLContext,
+  ): Promise<Todo> {
+    if (!user) {
+      throw new Error("User ID is required to update a todo")
+    }
+
+    const { userId } = user
+    return todoService.updateTodo(reqId, { userId, ...data })
   }
 
   @Mutation(() => Todo)
