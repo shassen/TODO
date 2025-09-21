@@ -4,6 +4,7 @@ import { Prisma } from "../../../prisma";
 import { DecimalJSScalar } from "../../scalars";
 import { CollectionCollaboratorOrderByRelationAggregateInput } from "../inputs/CollectionCollaboratorOrderByRelationAggregateInput";
 import { CollectionOrderByRelationAggregateInput } from "../inputs/CollectionOrderByRelationAggregateInput";
+import { FriendshipOrderByRelationAggregateInput } from "../inputs/FriendshipOrderByRelationAggregateInput";
 import { TodoOrderByRelationAggregateInput } from "../inputs/TodoOrderByRelationAggregateInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -63,4 +64,14 @@ export class UserOrderByWithRelationInput {
     nullable: true
   })
   todos?: TodoOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  initiatedFriendship?: FriendshipOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipOrderByRelationAggregateInput, {
+    nullable: true
+  })
+  receivedFriendship?: FriendshipOrderByRelationAggregateInput | undefined;
 }

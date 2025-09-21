@@ -7,6 +7,7 @@ import { CollectionCollaboratorListRelationFilter } from "../inputs/CollectionCo
 import { CollectionListRelationFilter } from "../inputs/CollectionListRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
+import { FriendshipListRelationFilter } from "../inputs/FriendshipListRelationFilter";
 import { StringFilter } from "../inputs/StringFilter";
 import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { TodoListRelationFilter } from "../inputs/TodoListRelationFilter";
@@ -83,4 +84,14 @@ export class UserWhereUniqueInput {
     nullable: true
   })
   todos?: TodoListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipListRelationFilter, {
+    nullable: true
+  })
+  initiatedFriendship?: FriendshipListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipListRelationFilter, {
+    nullable: true
+  })
+  receivedFriendship?: FriendshipListRelationFilter | undefined;
 }

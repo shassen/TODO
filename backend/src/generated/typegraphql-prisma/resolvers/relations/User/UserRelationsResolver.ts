@@ -2,10 +2,13 @@ import * as TypeGraphQL from "type-graphql";
 import type { GraphQLResolveInfo } from "graphql";
 import { Collection } from "../../../models/Collection";
 import { CollectionCollaborator } from "../../../models/CollectionCollaborator";
+import { Friendship } from "../../../models/Friendship";
 import { Todo } from "../../../models/Todo";
 import { User } from "../../../models/User";
 import { UserCollaborationsArgs } from "./args/UserCollaborationsArgs";
 import { UserCollectionsArgs } from "./args/UserCollectionsArgs";
+import { UserInitiatedFriendshipArgs } from "./args/UserInitiatedFriendshipArgs";
+import { UserReceivedFriendshipArgs } from "./args/UserReceivedFriendshipArgs";
 import { UserTodosArgs } from "./args/UserTodosArgs";
 import { transformInfoIntoPrismaArgs, getPrismaFromContext, transformCountFieldIntoSelectRelationsCount } from "../../../helpers";
 
@@ -51,6 +54,36 @@ export class UserRelationsResolver {
         id: user.id,
       },
     }).todos({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Friendship], {
+    nullable: false
+  })
+  async initiatedFriendship(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UserInitiatedFriendshipArgs): Promise<Friendship[]> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+    }).initiatedFriendship({
+      ...args,
+      ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
+    });
+  }
+
+  @TypeGraphQL.FieldResolver(_type => [Friendship], {
+    nullable: false
+  })
+  async receivedFriendship(@TypeGraphQL.Root() user: User, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: UserReceivedFriendshipArgs): Promise<Friendship[]> {
+    const { _count } = transformInfoIntoPrismaArgs(info);
+    return getPrismaFromContext(ctx).user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+    }).receivedFriendship({
       ...args,
       ...(_count && transformCountFieldIntoSelectRelationsCount(_count)),
     });

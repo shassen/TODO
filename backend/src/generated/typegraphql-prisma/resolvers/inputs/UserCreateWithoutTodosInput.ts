@@ -4,6 +4,8 @@ import { Prisma } from "../../../prisma";
 import { DecimalJSScalar } from "../../scalars";
 import { CollectionCollaboratorCreateNestedManyWithoutUserInput } from "../inputs/CollectionCollaboratorCreateNestedManyWithoutUserInput";
 import { CollectionCreateNestedManyWithoutOwnerInput } from "../inputs/CollectionCreateNestedManyWithoutOwnerInput";
+import { FriendshipCreateNestedManyWithoutFriendInput } from "../inputs/FriendshipCreateNestedManyWithoutFriendInput";
+import { FriendshipCreateNestedManyWithoutUserInput } from "../inputs/FriendshipCreateNestedManyWithoutUserInput";
 
 @TypeGraphQL.InputType("UserCreateWithoutTodosInput", {})
 export class UserCreateWithoutTodosInput {
@@ -56,4 +58,14 @@ export class UserCreateWithoutTodosInput {
     nullable: true
   })
   collaborations?: CollectionCollaboratorCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipCreateNestedManyWithoutUserInput, {
+    nullable: true
+  })
+  initiatedFriendship?: FriendshipCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipCreateNestedManyWithoutFriendInput, {
+    nullable: true
+  })
+  receivedFriendship?: FriendshipCreateNestedManyWithoutFriendInput | undefined;
 }

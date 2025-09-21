@@ -32,21 +32,48 @@ enum Permission {
   OWNER
 }
 
+enum FriendStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  BLOCKED
+  UNFRIENDED
+}
+
 model User {
-  id             String                   @id @default(auto()) @map("_id") @db.ObjectId
-  email          String                   @unique
-  password       String
-  birthday       String?
-  name           String?
-  phoneNumber    String?
-  isDeleted      Boolean                  @default(false)
-  isActive       Boolean                  @default(true)
-  createdAt      DateTime                 @default(now())
-  updatedAt      DateTime                 @updatedAt
-  deletedAt      DateTime?
-  collections    Collection[]             @relation("CollectionOwner")
-  collaborations CollectionCollaborator[]
-  todos          Todo[]
+  id                  String                   @id @default(auto()) @map("_id") @db.ObjectId
+  email               String                   @unique
+  password            String
+  birthday            String?
+  name                String?
+  phoneNumber         String?
+  isDeleted           Boolean                  @default(false)
+  isActive            Boolean                  @default(true)
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+  deletedAt           DateTime?
+  collections         Collection[]             @relation("CollectionOwner")
+  collaborations      CollectionCollaborator[]
+  todos               Todo[]
+  initiatedFriendship Friendship[]             @relation("FriendshipInitiator")
+  receivedFriendship  Friendship[]             @relation("FriendshipReceiver")
+}
+
+model Friendship {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String       @db.ObjectId
+  user      User         @relation(fields: [userId], references: [id], name: "FriendshipInitiator")
+  friendId  String       @db.ObjectId
+  friend    User         @relation(fields: [friendId], references: [id], name: "FriendshipReceiver")
+  status    FriendStatus @default(PENDING)
+  isDeleted Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  deletedAt DateTime?
+
+  @@unique([userId, friendId])
+  @@index([userId])
+  @@index([friendId])
 }
 
 model Collection {
@@ -64,6 +91,8 @@ model Collection {
   ownerId       String                   @db.ObjectId
   collaborators CollectionCollaborator[]
   todos         Todo[]
+
+  @@index([ownerId])
 }
 
 model CollectionCollaborator {
@@ -73,6 +102,9 @@ model CollectionCollaborator {
   collectionId String     @db.ObjectId
   user         User       @relation(fields: [userId], references: [id])
   userId       String     @db.ObjectId
+
+  @@index([collectionId])
+  @@index([userId])
 }
 
 model Todo {
@@ -91,6 +123,9 @@ model Todo {
   collectionId String?     @db.ObjectId
   creator      User        @relation(fields: [creatorId], references: [id])
   creatorId    String      @db.ObjectId
+
+  @@index([collectionId])
+  @@index([creatorId])
 }
 
 //----------------------------------

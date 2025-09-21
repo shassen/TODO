@@ -1,5 +1,7 @@
 export { CollectionCollaboratorScalarFieldEnum } from "./CollectionCollaboratorScalarFieldEnum";
 export { CollectionScalarFieldEnum } from "./CollectionScalarFieldEnum";
+export { FriendStatus } from "./FriendStatus";
+export { FriendshipScalarFieldEnum } from "./FriendshipScalarFieldEnum";
 export { Permission } from "./Permission";
 export { QueryMode } from "./QueryMode";
 export { SortOrder } from "./SortOrder";

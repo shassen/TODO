@@ -4,6 +4,7 @@ import { Prisma } from "../../prisma";
 import { DecimalJSScalar } from "../scalars";
 import { Collection } from "../models/Collection";
 import { CollectionCollaborator } from "../models/CollectionCollaborator";
+import { Friendship } from "../models/Friendship";
 import { Todo } from "../models/Todo";
 import { UserCount } from "../resolvers/outputs/UserCount";
 
@@ -69,6 +70,10 @@ export class User {
   collaborations?: CollectionCollaborator[];
 
   todos?: Todo[];
+
+  initiatedFriendship?: Friendship[];
+
+  receivedFriendship?: Friendship[];
 
   @TypeGraphQL.Field(_type => UserCount, {
     nullable: true
