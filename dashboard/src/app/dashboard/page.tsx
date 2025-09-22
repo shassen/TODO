@@ -1,5 +1,8 @@
 "use client"
+
+import { useState } from "react"
 import { ProtectedRoute } from "@/components/layout/ProtectedRoute"
+import { TabNavigation } from "@/components/layout/TabNavigation"
 import { TodoList } from "@/components/todos/TodoList"
 import { CreateTodoModal } from "@/components/todos/CreateTodoModal"
 import { CollectionsList } from "@/components/collections/CollectionsList"
@@ -7,9 +10,39 @@ import { CreateCollectionModal } from "@/components/collections/CreateCollection
 import { useTodos } from "@/hooks/useTodos"
 import { useCollections } from "@/hooks/useCollections"
 
+type TabId = "dashboard" | "todos" | "collections" | "friends" | "profile"
+
 export default function DashboardPage() {
+  const [activeTab, setActiveTab] = useState<TabId>("dashboard")
   const { todos, loading: todosLoading, error: todosError } = useTodos()
   const { collections, loading: collectionsLoading, error: collectionsError } = useCollections()
+
+  const activeTodos = todos?.filter((todo) => !todo.completed) || []
+
+  const tabs = [
+    {
+      id: "dashboard" as TabId,
+      label: "Dashboard",
+    },
+    {
+      id: "todos" as TabId,
+      label: "Todos",
+      count: activeTodos.length,
+    },
+    {
+      id: "collections" as TabId,
+      label: "Collections",
+      count: collections?.length || 0,
+    },
+    {
+      id: "friends" as TabId,
+      label: "Friends",
+    },
+    {
+      id: "profile" as TabId,
+      label: "Profile",
+    },
+  ]
 
   if (todosLoading || collectionsLoading) {
     return (
@@ -44,26 +77,66 @@ export default function DashboardPage() {
     )
   }
 
-  return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Dashboard</h1>
+  const renderContent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left side - Collections */}
+            <div className="space-y-4">
+              <CollectionsList collections={collections} loading={collectionsLoading} />
+              <CreateCollectionModal />
+            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left side - Todos */}
+            {/* Right side - Todos */}
+            <div className="space-y-4">
+              <TodoList todos={todos} loading={todosLoading} />
+              <CreateTodoModal />
+            </div>
+          </div>
+        )
+
+      case "todos":
+        return (
+          <div className="flex justify-center">
+            <div className="max-w-4xl w-full">
               <div className="space-y-4">
                 <TodoList todos={todos} loading={todosLoading} />
                 <CreateTodoModal />
               </div>
+            </div>
+          </div>
+        )
 
-              {/* Right side - Collections */}
+      case "collections":
+        return (
+          <div className="flex justify-center">
+            <div className="max-w-4xl w-full">
               <div className="space-y-4">
                 <CollectionsList collections={collections} loading={collectionsLoading} />
                 <CreateCollectionModal />
               </div>
             </div>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
+  return (
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="px-4 py-6 sm:px-0">
+            <TabNavigation
+              tabs={tabs}
+              activeTab={activeTab}
+              onTabChange={(tabId) => setActiveTab(tabId as TabId)}
+            />
+
+            {renderContent()}
           </div>
         </div>
       </div>
