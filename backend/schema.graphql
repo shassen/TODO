@@ -125,11 +125,45 @@ input DeleteCollectionInput {
   id: String!
 }
 
+input EnumFriendStatusFilter {
+  equals: FriendStatus
+  in: [FriendStatus!]
+  not: NestedEnumFriendStatusFilter
+  notIn: [FriendStatus!]
+}
+
 input EnumPermissionFilter {
   equals: Permission
   in: [Permission!]
   not: NestedEnumPermissionFilter
   notIn: [Permission!]
+}
+
+enum FriendStatus {
+  ACCEPTED
+  BLOCKED
+  PENDING
+  REJECTED
+  UNFRIENDED
+}
+
+input FriendshipListRelationFilter {
+  every: FriendshipWhereInput
+  none: FriendshipWhereInput
+  some: FriendshipWhereInput
+}
+
+input FriendshipWhereInput {
+  AND: [FriendshipWhereInput!]
+  NOT: [FriendshipWhereInput!]
+  OR: [FriendshipWhereInput!]
+  friend: UserRelationFilter
+  friendId: StringFilter
+  id: StringFilter
+  isDeleted: BoolFilter
+  status: EnumFriendStatusFilter
+  user: UserRelationFilter
+  userId: StringFilter
 }
 
 """
@@ -181,6 +215,13 @@ input NestedDateTimeNullableFilter {
   lte: DateTimeISO
   not: NestedDateTimeNullableFilter
   notIn: [DateTimeISO!]
+}
+
+input NestedEnumFriendStatusFilter {
+  equals: FriendStatus
+  in: [FriendStatus!]
+  not: NestedEnumFriendStatusFilter
+  notIn: [FriendStatus!]
 }
 
 input NestedEnumPermissionFilter {
@@ -339,6 +380,8 @@ type User {
 type UserCount {
   collaborations(where: CollectionCollaboratorWhereInput): Int!
   collections(where: CollectionWhereInput): Int!
+  initiatedFriendship(where: FriendshipWhereInput): Int!
+  receivedFriendship(where: FriendshipWhereInput): Int!
   todos(where: TodoWhereInput): Int!
 }
 
@@ -356,10 +399,12 @@ input UserWhereInput {
   collections: CollectionListRelationFilter
   email: StringFilter
   id: StringFilter
+  initiatedFriendship: FriendshipListRelationFilter
   isActive: BoolFilter
   isDeleted: BoolFilter
   name: StringNullableFilter
   password: StringFilter
   phoneNumber: StringNullableFilter
+  receivedFriendship: FriendshipListRelationFilter
   todos: TodoListRelationFilter
 }
