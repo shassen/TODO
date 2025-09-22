@@ -35,7 +35,7 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Your Todos</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center w-full">Your Todos</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -50,7 +50,7 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Your Todos</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center w-full">Your Todos</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
@@ -66,7 +66,7 @@ export const TodoList = ({ todos, loading }: TodoListProps) => {
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Your Todos</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center w-full">Your Todos</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

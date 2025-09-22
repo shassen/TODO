@@ -4,6 +4,8 @@ import { Prisma } from "../../../prisma";
 import { DecimalJSScalar } from "../../scalars";
 import { CollectionCollaboratorUpdateManyWithoutUserNestedInput } from "../inputs/CollectionCollaboratorUpdateManyWithoutUserNestedInput";
 import { CollectionUpdateManyWithoutOwnerNestedInput } from "../inputs/CollectionUpdateManyWithoutOwnerNestedInput";
+import { FriendshipUpdateManyWithoutFriendNestedInput } from "../inputs/FriendshipUpdateManyWithoutFriendNestedInput";
+import { FriendshipUpdateManyWithoutUserNestedInput } from "../inputs/FriendshipUpdateManyWithoutUserNestedInput";
 
 @TypeGraphQL.InputType("UserUpdateWithoutTodosInput", {})
 export class UserUpdateWithoutTodosInput {
@@ -51,4 +53,14 @@ export class UserUpdateWithoutTodosInput {
     nullable: true
   })
   collaborations?: CollectionCollaboratorUpdateManyWithoutUserNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipUpdateManyWithoutUserNestedInput, {
+    nullable: true
+  })
+  initiatedFriendship?: FriendshipUpdateManyWithoutUserNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipUpdateManyWithoutFriendNestedInput, {
+    nullable: true
+  })
+  receivedFriendship?: FriendshipUpdateManyWithoutFriendNestedInput | undefined;
 }

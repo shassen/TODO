@@ -3,6 +3,8 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "../../../prisma";
 import { DecimalJSScalar } from "../../scalars";
 import { CollectionCollaboratorCreateNestedManyWithoutUserInput } from "../inputs/CollectionCollaboratorCreateNestedManyWithoutUserInput";
+import { FriendshipCreateNestedManyWithoutFriendInput } from "../inputs/FriendshipCreateNestedManyWithoutFriendInput";
+import { FriendshipCreateNestedManyWithoutUserInput } from "../inputs/FriendshipCreateNestedManyWithoutUserInput";
 import { TodoCreateNestedManyWithoutCreatorInput } from "../inputs/TodoCreateNestedManyWithoutCreatorInput";
 
 @TypeGraphQL.InputType("UserCreateWithoutCollectionsInput", {})
@@ -56,4 +58,14 @@ export class UserCreateWithoutCollectionsInput {
     nullable: true
   })
   todos?: TodoCreateNestedManyWithoutCreatorInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipCreateNestedManyWithoutUserInput, {
+    nullable: true
+  })
+  initiatedFriendship?: FriendshipCreateNestedManyWithoutUserInput | undefined;
+
+  @TypeGraphQL.Field(_type => FriendshipCreateNestedManyWithoutFriendInput, {
+    nullable: true
+  })
+  receivedFriendship?: FriendshipCreateNestedManyWithoutFriendInput | undefined;
 }

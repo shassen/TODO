@@ -1,6 +1,7 @@
 export { AffectedRowsOutput } from "./AffectedRowsOutput";
 export { AggregateCollection } from "./AggregateCollection";
 export { AggregateCollectionCollaborator } from "./AggregateCollectionCollaborator";
+export { AggregateFriendship } from "./AggregateFriendship";
 export { AggregateTodo } from "./AggregateTodo";
 export { AggregateUser } from "./AggregateUser";
 export { CollectionCollaboratorCountAggregate } from "./CollectionCollaboratorCountAggregate";
@@ -12,6 +13,10 @@ export { CollectionCountAggregate } from "./CollectionCountAggregate";
 export { CollectionGroupBy } from "./CollectionGroupBy";
 export { CollectionMaxAggregate } from "./CollectionMaxAggregate";
 export { CollectionMinAggregate } from "./CollectionMinAggregate";
+export { FriendshipCountAggregate } from "./FriendshipCountAggregate";
+export { FriendshipGroupBy } from "./FriendshipGroupBy";
+export { FriendshipMaxAggregate } from "./FriendshipMaxAggregate";
+export { FriendshipMinAggregate } from "./FriendshipMinAggregate";
 export { TodoCountAggregate } from "./TodoCountAggregate";
 export { TodoGroupBy } from "./TodoGroupBy";
 export { TodoMaxAggregate } from "./TodoMaxAggregate";
