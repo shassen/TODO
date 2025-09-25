@@ -17,7 +17,7 @@ export const CreateCollectionModal = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full">Add Collection</Button>
+        <Button className="flex-1">Add Collection</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

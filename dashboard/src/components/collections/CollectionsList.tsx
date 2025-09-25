@@ -55,10 +55,14 @@ export const CollectionsList = ({ collections, loading }: CollectionsListProps) 
               className="flex items-center justify-between p-3 rounded-lg border bg-white border-gray-300 hover:border-gray-400 transition-colors"
             >
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">{collection.name}</p>
+                <p className="text-sm font-medium text-gray-900 truncate max-w-[225px] bg-amber-200">
+                  {collection.name}
+                </p>
 
                 {collection.description && (
-                  <p className="text-xs text-gray-500 mt-1 truncate">{collection.description}</p>
+                  <p className="text-xs text-gray-500 mt-1 max-w-[225px] truncate">
+                    {collection.description}
+                  </p>
                 )}
               </div>
 
