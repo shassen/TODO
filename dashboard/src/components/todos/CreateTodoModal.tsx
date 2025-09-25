@@ -17,7 +17,7 @@ export const CreateTodoModal = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full">Add Todo</Button>
+        <Button className="w-full">add Todo</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

@@ -6,6 +6,7 @@ import { ResponsiveNavigation } from "@/components/layout/ResponsiveNavigation"
 import { TodoList } from "@/components/todos/TodoList"
 import { CreateTodoModal } from "@/components/todos/CreateTodoModal"
 import { CollectionsList } from "@/components/collections/CollectionsList"
+import { CollectionAccordion } from "@/components/collections/CollectionAccordion"
 import { CreateCollectionModal } from "@/components/collections/CreateCollectionModal"
 import { useTodos } from "@/hooks/useTodos"
 import { useCollections } from "@/hooks/useCollections"
@@ -82,18 +83,12 @@ export default function DashboardPage() {
     switch (activeTab) {
       case "dashboard":
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left side - Collections */}
-            <div className="space-y-4">
-              <CollectionsList collections={collections} loading={collectionsLoading} />
-              <CreateCollectionModal />
-            </div>
-
-            {/* Right side - Todos */}
-            <div className="space-y-4">
-              <TodoList todos={todos} loading={todosLoading} />
-              <CreateTodoModal />
-            </div>
+          <div className="max-w-4xl mx-auto">
+            <CollectionAccordion
+              collections={collections || []}
+              todos={todos || []}
+              loading={todosLoading || collectionsLoading}
+            />
           </div>
         )
 
