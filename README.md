@@ -30,6 +30,10 @@ Important commands and information:
 
 - Run `yarn dev` to start the server
 
+3. Navigate to todo/dashboard
+
+- Run `yarn dev` to start next.js server
+
 These are the commands needed to interface with the graphql api!
 
 More information to come!
